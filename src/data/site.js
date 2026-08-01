@@ -17,7 +17,7 @@ export const site = {
 
   // ---- Contact details ----
   phone: "+91 96499 00888", // primary number (used for header & call links)
-  phoneAlt: "+91 96626 27268", // secondary number (shown on contact pages)
+  phoneAlt: "+91 96676 72768", // secondary number (shown on contact pages)
   // Digits only, with country code, no spaces/+ — used for WhatsApp links.
   whatsapp: "919649900888",
   email: "iciedu.info@gmail.com",
