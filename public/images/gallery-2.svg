@@ -1,0 +1,14 @@
+<svg width="600" height="450" viewBox="0 0 600 450" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="g1" x1="0" y1="0" x2="600" y2="450" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#0ea5e9"/>
+      <stop offset="1" stop-color="#1d4ed8"/>
+    </linearGradient>
+  </defs>
+  <rect width="600" height="450" fill="url(#g1)"/>
+  <circle cx="80" cy="370" r="160" fill="#ffffff" opacity="0.06"/>
+  <circle cx="520" cy="90" r="120" fill="#ffffff" opacity="0.06"/>
+  <text x="300" y="200" font-size="90" text-anchor="middle" dominant-baseline="middle">📚</text>
+  <text x="300" y="290" font-family="Poppins, Arial, sans-serif" font-size="30" font-weight="700" fill="#ffffff" text-anchor="middle">Classroom Session</text>
+  <text x="300" y="325" font-family="Arial, sans-serif" font-size="15" fill="#ffffff" opacity="0.8" text-anchor="middle">Indian Computer Institute</text>
+</svg>

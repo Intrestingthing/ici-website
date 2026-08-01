@@ -1,0 +1,102 @@
+@import "tailwindcss";
+
+/*
+  ICI brand design tokens.
+  To re-skin the whole site, change the brand / accent values below.
+  - brand  = trustworthy blue (primary)
+  - accent = warm amber (friendly highlight)
+*/
+@theme {
+  --font-sans: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
+  --font-display: var(--font-poppins), var(--font-inter), sans-serif;
+
+  --color-brand-50: #eff6ff;
+  --color-brand-100: #dbeafe;
+  --color-brand-200: #bfdbfe;
+  --color-brand-300: #93c5fd;
+  --color-brand-400: #60a5fa;
+  --color-brand-500: #3b82f6;
+  --color-brand-600: #2563eb;
+  --color-brand-700: #1d4ed8;
+  --color-brand-800: #1e40af;
+  --color-brand-900: #1e3a8a;
+  --color-brand-950: #172554;
+
+  --color-accent-50: #fffbeb;
+  --color-accent-100: #fef3c7;
+  --color-accent-200: #fde68a;
+  --color-accent-300: #fcd34d;
+  --color-accent-400: #fbbf24;
+  --color-accent-500: #f59e0b;
+  --color-accent-600: #d97706;
+  --color-accent-700: #b45309;
+}
+
+:root {
+  --background: #ffffff;
+  --foreground: #1e293b; /* slate-800 */
+}
+
+html {
+  /* No smooth-scroll here — it fights Next.js resetting scroll-to-top on
+     navigation, which makes new pages open part-way down the page. */
+  scroll-behavior: auto;
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+  /* Prevent sideways scrolling / misalignment. `clip` (not `hidden`) so it
+     does NOT create a scroll container that would break the sticky header. */
+  overflow-x: clip;
+}
+
+/* Marquee ticker for the announcement bar */
+@keyframes ici-marquee {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
+  }
+}
+.animate-marquee {
+  animation: ici-marquee 34s linear infinite;
+}
+.marquee-pause:hover .animate-marquee {
+  animation-play-state: paused;
+}
+
+/* Reusable layout + component utilities */
+@layer components {
+  .container-px {
+    @apply mx-auto w-full max-w-7xl px-5 sm:px-8 lg:px-10;
+  }
+
+  .section {
+    @apply py-16 sm:py-20 lg:py-24;
+  }
+
+  .btn {
+    @apply inline-flex items-center justify-center gap-2 rounded-full px-6 py-3 text-sm font-semibold transition-all focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2;
+  }
+  .btn-primary {
+    @apply inline-flex items-center justify-center gap-2 rounded-full px-6 py-3 text-sm font-semibold transition-all focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 bg-brand-700 text-white shadow-sm hover:bg-brand-800 focus-visible:ring-brand-500;
+  }
+  .btn-accent {
+    @apply inline-flex items-center justify-center gap-2 rounded-full px-6 py-3 text-sm font-semibold transition-all focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 bg-accent-500 text-slate-900 shadow-sm hover:bg-accent-400 focus-visible:ring-accent-500;
+  }
+  .btn-outline {
+    @apply inline-flex items-center justify-center gap-2 rounded-full px-6 py-3 text-sm font-semibold transition-all focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 border border-brand-200 bg-white text-brand-700 hover:bg-brand-50 focus-visible:ring-brand-500;
+  }
+
+  .eyebrow {
+    @apply inline-block rounded-full bg-brand-50 px-3 py-1 text-xs font-semibold uppercase tracking-wider text-brand-700;
+  }
+
+  .card {
+    @apply rounded-2xl border border-slate-100 bg-white shadow-sm transition-all;
+  }
+}

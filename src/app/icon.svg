@@ -1,0 +1,12 @@
+<svg width="64" height="64" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="favGrad" x1="0" y1="0" x2="64" y2="64" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#2563eb"/>
+      <stop offset="1" stop-color="#1e3a8a"/>
+    </linearGradient>
+  </defs>
+  <rect x="2" y="2" width="60" height="60" rx="14" fill="url(#favGrad)"/>
+  <path d="M32 14 L52 22 L32 30 L12 22 Z" fill="#fbbf24"/>
+  <path d="M32 32 L21 27.5 V33.5 C21 36.6 25.9 38.5 32 38.5 C38.1 38.5 43 36.6 43 33.5 V27.5 Z" fill="#f59e0b"/>
+  <text x="32" y="53" font-family="Segoe UI, Arial, sans-serif" font-size="17" font-weight="800" fill="#ffffff" text-anchor="middle" letter-spacing="1">ICI</text>
+</svg>
