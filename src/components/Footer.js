@@ -1,8 +1,12 @@
+"use client";
+
 import Link from "next/link";
 import { Phone, Mail, MapPin } from "lucide-react";
 import { site } from "@/data/site";
 import { navLinks, footerExtraLinks } from "@/data/nav";
 import { getFeaturedCourses } from "@/data/courses";
+import FooterSection from "@/components/FooterSection";
+import { useLang } from "@/i18n/LanguageProvider";
 
 /* Inline brand SVGs (lucide removed brand icons). 18x18, currentColor. */
 const iconProps = { width: 18, height: 18, viewBox: "0 0 24 24", fill: "currentColor", "aria-hidden": true };
@@ -30,12 +34,13 @@ const socialIcons = {
 };
 
 export default function Footer() {
+  const { t } = useLang();
   const year = 2026;
   const topCourses = getFeaturedCourses().slice(0, 5);
 
   return (
     <footer className="mt-auto bg-brand-950 text-slate-300">
-      <div className="container-px grid gap-10 py-14 sm:grid-cols-2 lg:grid-cols-4">
+      <div className="container-px grid gap-x-10 gap-y-2 py-10 sm:grid-cols-2 sm:gap-y-10 sm:py-12 lg:grid-cols-4">
         {/* Brand */}
         <div>
           <div className="font-display text-2xl font-extrabold">
@@ -43,7 +48,7 @@ export default function Footer() {
             <span className="text-accent-400"> Group</span>
           </div>
           <p className="mt-1 text-xs font-medium uppercase tracking-wider text-slate-400">
-            Innovative Career Institute &amp; Indian Computer Institute
+            {t("topbar.institutes")}
           </p>
           <p className="mt-4 text-sm leading-relaxed text-slate-400">{site.description}</p>
           <div className="mt-5 flex gap-3">
@@ -67,46 +72,37 @@ export default function Footer() {
         </div>
 
         {/* Quick links */}
-        <div>
-          <h3 className="font-display text-sm font-semibold uppercase tracking-wider text-white">
-            Quick Links
-          </h3>
-          <ul className="mt-4 space-y-2 text-sm">
+        <FooterSection title={t("footer.quickLinks")}>
+          <ul className="space-y-2 text-sm">
             {[...navLinks, ...footerExtraLinks].map((link) => (
               <li key={link.href}>
-                <Link href={link.href} className="transition-colors hover:text-accent-400">
-                  {link.label}
+                <Link href={link.href} className="inline-block py-1 transition-colors hover:text-accent-400">
+                  {t(link.key)}
                 </Link>
               </li>
             ))}
           </ul>
-        </div>
+        </FooterSection>
 
         {/* Popular courses */}
-        <div>
-          <h3 className="font-display text-sm font-semibold uppercase tracking-wider text-white">
-            Popular Courses
-          </h3>
-          <ul className="mt-4 space-y-2 text-sm">
+        <FooterSection title={t("footer.popularCourses")}>
+          <ul className="space-y-2 text-sm">
             {topCourses.map((course) => (
               <li key={course.slug}>
                 <Link
                   href={`/courses/${course.slug}`}
-                  className="transition-colors hover:text-accent-400"
+                  className="inline-block py-1 transition-colors hover:text-accent-400"
                 >
                   {course.title}
                 </Link>
               </li>
             ))}
           </ul>
-        </div>
+        </FooterSection>
 
         {/* Contact */}
-        <div>
-          <h3 className="font-display text-sm font-semibold uppercase tracking-wider text-white">
-            Get in Touch
-          </h3>
-          <ul className="mt-4 space-y-3 text-sm">
+        <FooterSection title={t("footer.getInTouch")}>
+          <ul className="space-y-3 text-sm">
             <li className="flex items-start gap-3">
               <MapPin size={18} className="mt-0.5 shrink-0 text-accent-400" />
               <span>
@@ -115,22 +111,20 @@ export default function Footer() {
                 {site.address.line2}
               </span>
             </li>
-            <li className="flex items-center gap-3">
-              <Phone size={18} className="shrink-0 text-accent-400" />
-              <span className="flex flex-wrap gap-x-2">
-                <a href={`tel:${site.phone.replace(/\s/g, "")}`} className="hover:text-accent-400">
+            <li className="flex items-start gap-3">
+              <Phone size={18} className="mt-0.5 shrink-0 text-accent-400" />
+              {/* Stacked so the two numbers are separate tap targets */}
+              <span className="flex flex-col gap-1">
+                <a href={`tel:${site.phone.replace(/\s/g, "")}`} className="py-0.5 hover:text-accent-400">
                   {site.phone}
                 </a>
                 {site.phoneAlt && (
-                  <>
-                    <span className="text-slate-500">,</span>
-                    <a
-                      href={`tel:${site.phoneAlt.replace(/\s/g, "")}`}
-                      className="hover:text-accent-400"
-                    >
-                      {site.phoneAlt}
-                    </a>
-                  </>
+                  <a
+                    href={`tel:${site.phoneAlt.replace(/\s/g, "")}`}
+                    className="py-0.5 hover:text-accent-400"
+                  >
+                    {site.phoneAlt}
+                  </a>
                 )}
               </span>
             </li>
@@ -141,13 +135,13 @@ export default function Footer() {
               </a>
             </li>
           </ul>
-        </div>
+        </FooterSection>
       </div>
 
       <div className="border-t border-white/10">
         <div className="container-px flex flex-col items-center justify-between gap-2 py-5 text-xs text-slate-400 sm:flex-row">
           <p>
-            © {year} {site.name}. All rights reserved.
+            © {year} {site.name}. {t("footer.rights")}
           </p>
           <p>{site.hours}</p>
         </div>

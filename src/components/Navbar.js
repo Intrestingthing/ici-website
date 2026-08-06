@@ -1,15 +1,23 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { Menu, X, Phone, Mail, ArrowRight } from "lucide-react";
 import { site } from "@/data/site";
 import { navLinks } from "@/data/nav";
+import { useLang } from "@/i18n/LanguageProvider";
+import LanguageToggle from "@/components/LanguageToggle";
 
 export default function Navbar() {
   const [open, setOpen] = useState(false);
   const pathname = usePathname();
+  const { t } = useLang();
+
+  // Close the mobile menu whenever the route changes.
+  useEffect(() => {
+    setOpen(false);
+  }, [pathname]);
 
   const isActive = (href) =>
     href === "/" ? pathname === "/" : pathname.startsWith(href);
@@ -19,24 +27,34 @@ export default function Navbar() {
       {/* Top utility bar — full form + contact */}
       <div className="bg-brand-950 text-white">
         <div className="container-px flex h-9 items-center justify-between gap-3 text-[11px] sm:text-xs">
-          <span className="truncate font-medium tracking-wide text-brand-100">
-            Innovative Career Institute &amp; Indian Computer Institute
+          {/* Full institute names — sm and up only */}
+          <span className="hidden truncate font-medium tracking-wide text-brand-100 sm:block">
+            {t("topbar.institutes")}
           </span>
-          <div className="hidden items-center gap-5 sm:flex">
-            <a
-              href={`tel:${site.phone.replace(/\s/g, "")}`}
-              className="flex items-center gap-1.5 hover:text-accent-400"
-            >
-              <Phone size={13} /> {site.phone}
-            </a>
-            <a
-              href={`mailto:${site.email}`}
-              className="flex items-center gap-1.5 hover:text-accent-400"
-            >
-              <Mail size={13} /> {site.email}
-            </a>
+          {/* Mobile: a single compact call link only */}
+          <a
+            href={`tel:${site.phone.replace(/\s/g, "")}`}
+            className="flex items-center gap-1.5 font-medium text-brand-100 hover:text-accent-400 sm:hidden"
+          >
+            <Phone size={13} /> {t("cta.call")} {site.phone}
+          </a>
+          <div className="flex items-center gap-4">
+            <div className="hidden items-center gap-5 sm:flex">
+              <a
+                href={`tel:${site.phone.replace(/\s/g, "")}`}
+                className="flex items-center gap-1.5 hover:text-accent-400"
+              >
+                <Phone size={13} /> {site.phone}
+              </a>
+              <a
+                href={`mailto:${site.email}`}
+                className="flex items-center gap-1.5 hover:text-accent-400"
+              >
+                <Mail size={13} /> {site.email}
+              </a>
+            </div>
+            <LanguageToggle />
           </div>
-          <span className="whitespace-nowrap text-brand-200 sm:hidden">Since 1998</span>
         </div>
       </div>
 
@@ -44,12 +62,12 @@ export default function Navbar() {
       <nav className="border-b border-slate-200 bg-white/95 backdrop-blur">
         <div className="container-px flex h-16 items-center justify-between lg:h-20">
           {/* Text logo — big "ICI Group" + 3-line descriptor beside it (no icon) */}
-          <Link href="/" className="flex items-center gap-3" onClick={() => setOpen(false)}>
-            <span className="font-display text-4xl font-extrabold leading-none tracking-tight lg:text-5xl">
+          <Link href="/" className="flex min-w-0 items-center gap-2 sm:gap-3" onClick={() => setOpen(false)}>
+            <span className="font-display text-2xl font-extrabold leading-none tracking-tight sm:text-4xl lg:text-5xl">
               <span className="text-brand-700">ICI</span>
               <span className="text-accent-500"> Group</span>
             </span>
-            <span className="flex flex-col border-l-2 border-slate-200 pl-3 text-[11px] font-bold uppercase leading-[1.25] tracking-wide text-slate-500 lg:text-xs">
+            <span className="flex flex-col border-l-2 border-slate-200 pl-2 text-[9px] font-bold uppercase leading-[1.25] tracking-wide text-slate-500 sm:pl-3 sm:text-[11px] lg:text-xs">
               <span>Computer</span>
               <span>Institute</span>
               <span>Jhunjhunu</span>
@@ -68,14 +86,14 @@ export default function Navbar() {
                     : "text-slate-600 hover:text-brand-700"
                 }`}
               >
-                {link.label}
+                {t(link.key)}
               </Link>
             ))}
           </div>
 
           <div className="hidden items-center gap-3 xl:flex">
             <Link href="/admissions" className="btn-primary">
-              Enquire Now <ArrowRight size={16} />
+              {t("cta.enquireNow")} <ArrowRight size={16} />
             </Link>
           </div>
 
@@ -93,7 +111,15 @@ export default function Navbar() {
 
         {/* Mobile menu */}
         {open && (
-          <div className="border-t border-slate-100 bg-white xl:hidden">
+          <>
+            {/* Backdrop — tap outside to close */}
+            <button
+              type="button"
+              aria-label="Close menu"
+              onClick={() => setOpen(false)}
+              className="fixed inset-0 z-40 h-screen w-screen cursor-default bg-slate-900/25 xl:hidden"
+            />
+            <div className="relative z-50 border-t border-slate-100 bg-white xl:hidden">
             <div className="container-px flex flex-col gap-1 py-4">
               {navLinks.map((link) => (
                 <Link
@@ -106,7 +132,7 @@ export default function Navbar() {
                       : "text-slate-700 hover:bg-slate-50"
                   }`}
                 >
-                  {link.label}
+                  {t(link.key)}
                 </Link>
               ))}
               <Link
@@ -114,7 +140,7 @@ export default function Navbar() {
                 onClick={() => setOpen(false)}
                 className="btn-primary mt-2 w-full"
               >
-                Enquire Now <ArrowRight size={16} />
+                {t("cta.enquireNow")} <ArrowRight size={16} />
               </Link>
               <a
                 href={`tel:${site.phone.replace(/\s/g, "")}`}
@@ -123,7 +149,8 @@ export default function Navbar() {
                 <Phone size={16} /> {site.phone}
               </a>
             </div>
-          </div>
+            </div>
+          </>
         )}
       </nav>
     </header>

@@ -1,59 +1,53 @@
 /*
   ========================================================================
-  EDIT THIS FILE to manage student reviews shown on the Home & Gallery
-  pages. Replace with your real students' names, courses and feedback.
-  `initials` shows in the avatar circle if you don't have a photo.
+  SAMPLE testimonials — replace with your REAL students for maximum trust.
+  For each real review, ideally add: photo, full name, the exact course they
+  took, the year, and their current job. (Add a `photo: "/images/..."` field
+  and it will show instead of the initials.)
+  These samples reference your actual courses and local (Shekhawati) names.
   ========================================================================
 */
 
 export const testimonials = [
   {
-    name: "Priya Sharma",
-    initials: "PS",
-    course: "ADCA",
+    name: "Sunita Saini",
+    initials: "SS",
+    course: "RS-CIT",
+    year: "2024",
+    role: "Computer Operator, Jhunjhunu",
     rating: 5,
     quote:
-      "The teachers at ICI are very patient and explain everything practically. After my ADCA, I got a job as a computer operator within a month. Highly recommended!",
+      "I did RS-CIT at ICI and cleared it easily. The teachers explained every topic in Hindi and English both. It really helped me get a computer operator job.",
   },
   {
-    name: "Rahul Verma",
-    initials: "RV",
-    course: "Tally Prime with GST",
+    name: "Vikram Poonia",
+    initials: "VP",
+    course: "Tally Professional Accountant (TPA)",
+    year: "2023",
+    role: "Accountant at a local firm",
     rating: 5,
     quote:
-      "I run a small business and the Tally with GST course helped me manage my own accounts and GST returns. Very practical and easy to follow.",
+      "The Tally and GST training was very practical. I now handle accounts and GST returns for a firm in Jhunjhunu. Thank you to the ICI faculty.",
   },
   {
-    name: "Anjali Gupta",
-    initials: "AG",
-    course: "Python Programming",
-    rating: 5,
-    quote:
-      "I joined the distance learning Python course while in college. The online classes were flexible and the projects gave me real confidence to code.",
-  },
-  {
-    name: "Mohit Singh",
-    initials: "MS",
-    course: "Graphic Design & DTP",
-    rating: 4,
-    quote:
-      "Learning Photoshop and CorelDRAW here changed my career. I now do freelance design work and earn from home. Thank you, ICI!",
-  },
-  {
-    name: "Sneha Patel",
-    initials: "SP",
+    name: "Pooja Kumawat",
+    initials: "PK",
     course: "DCA",
+    year: "2024",
+    role: "Data Entry Operator",
     rating: 5,
     quote:
-      "I had never touched a computer before. The DCA course made everything simple step by step. Now I use a computer confidently every day.",
+      "I had never used a computer before DCA. Step by step, the sir and madam taught me everything — MS-Office, internet, typing. Now I work confidently every day.",
   },
   {
-    name: "Arjun Nair",
-    initials: "AN",
-    course: "Web Design",
+    name: "Rohitash Saharan",
+    initials: "RS",
+    course: "Master Diploma in Computer Application (MDCA)",
+    year: "2023",
+    role: "Freelance & office work",
     rating: 5,
     quote:
-      "Friendly faculty and a great learning environment. I built my own portfolio website during the course and showed it in job interviews.",
+      "MDCA covered everything — office, programming, Tally and design. The personal attention from mentors made all the difference for a student from a village like me.",
   },
 ];
 

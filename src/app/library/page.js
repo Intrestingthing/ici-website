@@ -39,6 +39,7 @@ export default function LibraryPage() {
               alt="Study library at ICI Group, Jhunjhunu"
               width={1050}
               height={1400}
+              sizes="(max-width: 1024px) 100vw, 50vw"
               className="h-80 w-full object-cover lg:h-[26rem]"
             />
           </div>

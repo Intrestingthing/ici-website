@@ -1,6 +1,9 @@
+"use client";
+
 import { Route, PartyPopper, Trophy, Presentation, CalendarHeart } from "lucide-react";
 import SectionHeading from "@/components/SectionHeading";
 import { site } from "@/data/site";
+import { useLang } from "@/i18n/LanguageProvider";
 
 const iconMap = { Route, PartyPopper, Trophy, Presentation };
 const tileColors = [
@@ -11,20 +14,21 @@ const tileColors = [
 ];
 
 export default function EventsSection({ bg = false }) {
+  const { t, pick } = useLang();
   return (
     <section className={`section ${bg ? "bg-slate-50" : ""}`}>
       <div className="container-px">
         <SectionHeading
           center
-          eyebrow="Life at ICI"
-          title="Events & Festivals"
-          subtitle="Learning at ICI is more than classes. We celebrate festivals, run competitions and reach out to the community through events all year round."
+          eyebrow={t("events.eyebrow")}
+          title={t("events.title")}
+          subtitle={t("events.subtitle")}
         />
-        <div className="mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
+        <div className="mt-10 flex snap-x snap-mandatory gap-5 overflow-x-auto pb-2 [-ms-overflow-style:none] [scrollbar-width:none] sm:mt-12 sm:grid sm:snap-none sm:grid-cols-2 sm:gap-6 sm:overflow-visible lg:grid-cols-4 [&::-webkit-scrollbar]:hidden">
           {site.events.map((event, i) => {
             const Icon = iconMap[event.icon] ?? CalendarHeart;
             return (
-              <div key={event.title} className="card p-6">
+              <div key={event.title} className="card w-[78%] shrink-0 snap-start p-6 sm:w-auto sm:shrink">
                 <span
                   className={`flex h-14 w-14 items-center justify-center rounded-2xl ${
                     tileColors[i % tileColors.length]
@@ -33,9 +37,9 @@ export default function EventsSection({ bg = false }) {
                   <Icon size={26} />
                 </span>
                 <h3 className="mt-4 font-display text-lg font-semibold text-slate-900">
-                  {event.title}
+                  {pick(event, "title")}
                 </h3>
-                <p className="mt-2 text-sm leading-relaxed text-slate-600">{event.text}</p>
+                <p className="mt-2 text-sm leading-relaxed text-slate-600">{pick(event, "text")}</p>
               </div>
             );
           })}

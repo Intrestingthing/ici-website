@@ -1,11 +1,15 @@
+"use client";
+
 import { ShieldCheck, Award, Landmark } from "lucide-react";
 import { site } from "@/data/site";
+import { useLang } from "@/i18n/LanguageProvider";
 
 export default function ApprovalsStrip() {
+  const { pick } = useLang();
   const items = [
-    { icon: ShieldCheck, text: site.approvals.geduconnect.title },
-    { icon: Award, text: site.approvals.aisect.title },
-    { icon: Landmark, text: site.approvals.rkcl.title },
+    { icon: ShieldCheck, text: pick(site.approvals.geduconnect, "title") },
+    { icon: Award, text: pick(site.approvals.aisect, "title") },
+    { icon: Landmark, text: pick(site.approvals.rkcl, "title") },
   ];
 
   return (
@@ -14,9 +18,9 @@ export default function ApprovalsStrip() {
         {items.map((item) => (
           <span
             key={item.text}
-            className="flex items-center gap-2 text-sm font-semibold text-brand-800"
+            className="flex max-w-full items-center justify-center gap-2 text-center text-sm font-semibold text-brand-800"
           >
-            <item.icon size={18} className="text-brand-600" />
+            <item.icon size={18} className="shrink-0 text-brand-600" />
             {item.text}
           </span>
         ))}

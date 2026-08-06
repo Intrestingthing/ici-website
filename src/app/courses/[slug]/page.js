@@ -52,10 +52,45 @@ export default async function CourseDetailPage({ params }) {
   ];
 
   const institute = getInstitute(course.institute);
+  const shortTitle = course.title.split(" (")[0];
+
+  const courseSchema = {
+    "@context": "https://schema.org",
+    "@type": "Course",
+    name: course.title,
+    description: course.short,
+    provider: {
+      "@type": "EducationalOrganization",
+      name: site.name,
+      address: `${site.address.line1}, ${site.address.line2}`,
+    },
+  };
 
   return (
     <>
-      <PageHeader title={course.title} subtitle={course.short} crumb="Courses" />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(courseSchema) }}
+      />
+      <PageHeader
+        title={course.title}
+        subtitle={course.short}
+        trail={[{ label: "Courses", href: "/courses" }, { label: shortTitle }]}
+      />
+
+      {/* Mobile key facts — sidebar drops below the description on phones */}
+      <div className="container-px lg:hidden">
+        <div className="flex flex-wrap gap-2 pt-6">
+          {meta.slice(0, 3).map((m) => (
+            <span
+              key={m.label}
+              className="inline-flex items-center gap-1.5 rounded-full bg-slate-100 px-3 py-1.5 text-xs font-medium text-slate-700"
+            >
+              <m.icon size={13} className="text-brand-600" /> {m.value}
+            </span>
+          ))}
+        </div>
+      </div>
 
       <section className="section">
         <div className="container-px grid gap-12 lg:grid-cols-3">

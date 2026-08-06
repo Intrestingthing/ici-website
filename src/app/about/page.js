@@ -83,6 +83,7 @@ export default function AboutPage() {
               alt="Students during a training session at ICI Group, Jhunjhunu"
               width={1400}
               height={1050}
+              sizes="(max-width: 1024px) 100vw, 50vw"
               className="h-full w-full object-cover"
             />
           </div>

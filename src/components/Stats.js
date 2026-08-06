@@ -1,6 +1,11 @@
+"use client";
+
 import { site } from "@/data/site";
+import { useLang } from "@/i18n/LanguageProvider";
 
 export default function Stats({ dark = false }) {
+  const { pick } = useLang();
+
   return (
     <div className="grid grid-cols-2 gap-6 lg:grid-cols-4">
       {site.stats.map((stat) => (
@@ -13,7 +18,7 @@ export default function Stats({ dark = false }) {
             {stat.value}
           </div>
           <div className={`mt-1 text-sm ${dark ? "text-brand-100" : "text-slate-500"}`}>
-            {stat.label}
+            {pick(stat, "label")}
           </div>
         </div>
       ))}

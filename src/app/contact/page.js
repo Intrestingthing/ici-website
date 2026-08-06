@@ -1,6 +1,7 @@
 import { Phone, Mail, MapPin, Clock, MessageCircle } from "lucide-react";
 import PageHeader from "@/components/PageHeader";
 import EnquiryForm from "@/components/EnquiryForm";
+import LocationMap from "@/components/LocationMap";
 import { site } from "@/data/site";
 
 export const metadata = {
@@ -101,17 +102,8 @@ export default function ContactPage() {
             <p className="mt-2 flex items-center gap-2 text-slate-600">
               <Clock size={18} className="text-brand-700" /> {site.hours}
             </p>
-            <div className="mt-6 overflow-hidden rounded-2xl border border-slate-100 shadow-sm">
-              <iframe
-                title={`${site.name} location map`}
-                src={site.mapEmbedSrc}
-                width="100%"
-                height="420"
-                style={{ border: 0 }}
-                loading="lazy"
-                allowFullScreen
-                referrerPolicy="no-referrer-when-downgrade"
-              />
+            <div className="mt-6">
+              <LocationMap />
             </div>
             <div className="mt-4 flex items-start gap-3 rounded-2xl bg-brand-50 p-5">
               <MapPin size={20} className="mt-0.5 shrink-0 text-brand-700" />

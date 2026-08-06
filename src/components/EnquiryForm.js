@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { Send, MessageCircle, CheckCircle2, AlertCircle, Loader2 } from "lucide-react";
+import { Send, MessageCircle, CheckCircle2, AlertCircle, Loader2, PhoneCall } from "lucide-react";
 import { site } from "@/data/site";
 import { courses } from "@/data/courses";
 
@@ -13,6 +13,8 @@ const initialState = {
   mode: "Classroom",
   message: "",
 };
+
+const MODES = ["Classroom", "Online", "Distance"];
 
 export default function EnquiryForm() {
   const [form, setForm] = useState(initialState);
@@ -31,7 +33,7 @@ export default function EnquiryForm() {
       next.phone = "Please enter a valid phone number.";
     if (form.email && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(form.email.trim()))
       next.email = "Please enter a valid email address.";
-    if (!form.course) next.course = "Please select a course.";
+    if (!form.course) next.course = "Please choose a course.";
     setErrors(next);
     return Object.keys(next).length === 0;
   };
@@ -53,45 +55,62 @@ export default function EnquiryForm() {
     e.preventDefault();
     if (!validate()) return;
 
-    // No Formspree configured → use WhatsApp as the delivery method.
-    if (!site.formspreeEndpoint) {
-      window.open(buildWhatsAppLink(), "_blank", "noopener,noreferrer");
-      setStatus("success");
-      return;
+    // If an email backend is configured, send there too (fire-and-forget).
+    if (site.formspreeEndpoint) {
+      setStatus("loading");
+      try {
+        const res = await fetch(site.formspreeEndpoint, {
+          method: "POST",
+          headers: { Accept: "application/json", "Content-Type": "application/json" },
+          body: JSON.stringify(form),
+        });
+        setStatus(res.ok ? "success" : "error");
+        return;
+      } catch {
+        setStatus("error");
+        return;
+      }
     }
 
-    setStatus("loading");
-    try {
-      const res = await fetch(site.formspreeEndpoint, {
-        method: "POST",
-        headers: { Accept: "application/json", "Content-Type": "application/json" },
-        body: JSON.stringify(form),
-      });
-      if (res.ok) {
-        setStatus("success");
-        setForm(initialState);
-      } else {
-        setStatus("error");
-      }
-    } catch {
-      setStatus("error");
-    }
+    // WhatsApp-first: show the thank-you state. We DON'T auto-open WhatsApp
+    // (that can be blocked / navigate away and lose the details on mobile).
+    // The user taps the button below to send — reliable, no data loss.
+    setStatus("success");
   };
 
+  // ---- Success / thank-you state ----
   if (status === "success") {
     return (
       <div className="card flex flex-col items-center p-8 text-center">
         <CheckCircle2 className="text-emerald-500" size={56} />
-        <h3 className="mt-4 font-display text-2xl font-bold text-slate-900">Thank you!</h3>
-        <p className="mt-2 max-w-sm text-slate-600">
-          {site.formspreeEndpoint
-            ? "Your enquiry has been received. Our team will contact you very soon."
-            : "We've opened WhatsApp with your details. Send the message and our team will reply shortly."}
+        <h3 className="mt-4 font-display text-2xl font-bold text-slate-900">
+          Thank you{form.name ? `, ${form.name.split(" ")[0]}` : ""}!
+        </h3>
+        <p className="mt-2 max-w-md text-slate-600">
+          Your enquiry has been noted. <strong>Our counsellor will call you within 24 hours</strong>{" "}
+          (Mon–Sat). To reach us faster, tap below to send your details on WhatsApp.
         </p>
+        <a
+          href={buildWhatsAppLink()}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="btn mt-6 w-full bg-emerald-600 text-white hover:bg-emerald-700 sm:w-auto"
+        >
+          <MessageCircle size={18} /> Send my details on WhatsApp
+        </a>
+        <a
+          href={`tel:${site.phone.replace(/\s/g, "")}`}
+          className="mt-3 flex items-center gap-2 text-sm font-semibold text-brand-700"
+        >
+          <PhoneCall size={16} /> or call {site.phone}
+        </a>
         <button
           type="button"
-          onClick={() => setStatus("idle")}
-          className="btn-outline mt-6"
+          onClick={() => {
+            setForm(initialState);
+            setStatus("idle");
+          }}
+          className="mt-5 text-sm font-medium text-slate-400 underline hover:text-slate-600"
         >
           Submit another enquiry
         </button>
@@ -100,23 +119,12 @@ export default function EnquiryForm() {
   }
 
   const inputClass =
-    "w-full rounded-xl border border-slate-200 bg-white px-4 py-3 text-sm text-slate-800 outline-none transition focus:border-brand-500 focus:ring-2 focus:ring-brand-100";
+    "w-full rounded-xl border border-slate-200 bg-white px-4 py-3 text-base text-slate-800 outline-none transition focus:border-brand-500 focus:ring-2 focus:ring-brand-100";
   const labelClass = "mb-1.5 block text-sm font-medium text-slate-700";
   const errClass = "mt-1 text-xs font-medium text-red-500";
 
   return (
     <form onSubmit={handleSubmit} noValidate className="card p-6 sm:p-8">
-      {!site.formspreeEndpoint && (
-        <p className="mb-6 flex items-start gap-2 rounded-xl bg-accent-50 px-4 py-3 text-xs text-accent-700">
-          <AlertCircle size={16} className="mt-0.5 shrink-0" />
-          <span>
-            <strong>Setup note (visible to site owner):</strong> add your free Formspree endpoint in{" "}
-            <code className="rounded bg-white px-1">src/data/site.js</code> to receive enquiries by
-            email. Until then, this form sends details via WhatsApp.
-          </span>
-        </p>
-      )}
-
       <div className="grid gap-5 sm:grid-cols-2">
         <div>
           <label htmlFor="name" className={labelClass}>
@@ -125,6 +133,7 @@ export default function EnquiryForm() {
           <input
             id="name"
             name="name"
+            autoComplete="name"
             value={form.name}
             onChange={update}
             className={inputClass}
@@ -141,6 +150,8 @@ export default function EnquiryForm() {
             id="phone"
             name="phone"
             type="tel"
+            inputMode="tel"
+            autoComplete="tel"
             value={form.phone}
             onChange={update}
             className={inputClass}
@@ -157,6 +168,8 @@ export default function EnquiryForm() {
             id="email"
             name="email"
             type="email"
+            inputMode="email"
+            autoComplete="email"
             value={form.email}
             onChange={update}
             className={inputClass}
@@ -189,26 +202,21 @@ export default function EnquiryForm() {
 
       <fieldset className="mt-5">
         <legend className={labelClass}>Preferred Mode</legend>
-        <div className="flex flex-wrap gap-3">
-          {["Classroom", "Online", "Distance Learning"].map((mode) => (
-            <label
+        <div className="grid grid-cols-3 gap-2">
+          {MODES.map((mode) => (
+            <button
               key={mode}
-              className={`flex cursor-pointer items-center gap-2 rounded-xl border px-4 py-2.5 text-sm font-medium transition ${
+              type="button"
+              onClick={() => setForm({ ...form, mode })}
+              aria-pressed={form.mode === mode}
+              className={`min-h-12 rounded-xl border px-2 py-3 text-sm font-semibold transition ${
                 form.mode === mode
-                  ? "border-brand-500 bg-brand-50 text-brand-700"
+                  ? "border-brand-500 bg-brand-50 text-brand-700 ring-2 ring-brand-100"
                   : "border-slate-200 text-slate-600 hover:border-brand-200"
               }`}
             >
-              <input
-                type="radio"
-                name="mode"
-                value={mode}
-                checked={form.mode === mode}
-                onChange={update}
-                className="accent-brand-600"
-              />
               {mode}
-            </label>
+            </button>
           ))}
         </div>
       </fieldset>
@@ -220,7 +228,7 @@ export default function EnquiryForm() {
         <textarea
           id="message"
           name="message"
-          rows={4}
+          rows={3}
           value={form.message}
           onChange={update}
           className={inputClass}
@@ -230,31 +238,28 @@ export default function EnquiryForm() {
 
       {status === "error" && (
         <p className="mt-4 flex items-center gap-2 rounded-xl bg-red-50 px-4 py-3 text-sm text-red-600">
-          <AlertCircle size={16} /> Something went wrong. Please try again or use WhatsApp below.
+          <AlertCircle size={16} /> Something went wrong. Please try the WhatsApp button below.
         </p>
       )}
 
-      <div className="mt-6 flex flex-col gap-3 sm:flex-row">
-        <button type="submit" disabled={status === "loading"} className="btn-primary flex-1">
-          {status === "loading" ? (
-            <>
-              <Loader2 size={18} className="animate-spin" /> Sending…
-            </>
-          ) : (
-            <>
-              <Send size={18} /> Submit Enquiry
-            </>
-          )}
-        </button>
-        <a
-          href={buildWhatsAppLink()}
-          target="_blank"
-          rel="noopener noreferrer"
-          className="btn border border-emerald-200 bg-emerald-50 text-emerald-700 hover:bg-emerald-100"
-        >
-          <MessageCircle size={18} /> WhatsApp
-        </a>
-      </div>
+      <button
+        type="submit"
+        disabled={status === "loading"}
+        className="btn-primary mt-6 w-full py-4 text-base"
+      >
+        {status === "loading" ? (
+          <>
+            <Loader2 size={18} className="animate-spin" /> Sending…
+          </>
+        ) : (
+          <>
+            <Send size={18} /> Submit Enquiry
+          </>
+        )}
+      </button>
+      <p className="mt-3 text-center text-xs text-slate-400">
+        Our counsellor will call you back within 24 hours (Mon–Sat).
+      </p>
     </form>
   );
 }

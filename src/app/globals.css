@@ -38,9 +38,9 @@
 }
 
 html {
-  /* No smooth-scroll here — it fights Next.js resetting scroll-to-top on
-     navigation, which makes new pages open part-way down the page. */
   scroll-behavior: auto;
+  /* Prevent horizontal scroll globally. `clip` (not `hidden`) keeps sticky working. */
+  overflow-x: clip;
 }
 
 body {
@@ -48,9 +48,31 @@ body {
   color: var(--foreground);
   font-family: var(--font-sans);
   -webkit-font-smoothing: antialiased;
-  /* Prevent sideways scrolling / misalignment. `clip` (not `hidden`) so it
-     does NOT create a scroll container that would break the sticky header. */
   overflow-x: clip;
+}
+
+/* Safety net: no full-width wrapper may exceed the viewport, and clip any
+   stray child overflow so it can't widen the page on narrow screens. */
+.container-px {
+  max-width: 100vw;
+  overflow-x: clip;
+}
+
+/* Text must always be allowed to wrap to its container. This neutralises the
+   Tailwind gotcha where `flex ... items-center` sizes text children to
+   max-content, forcing horizontal overflow on narrow screens. Placed in the
+   base layer so explicit max-w-* utilities still win. */
+@layer base {
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6,
+  p,
+  blockquote {
+    max-width: 100%;
+  }
 }
 
 /* Marquee ticker for the announcement bar */
@@ -76,7 +98,7 @@ body {
   }
 
   .section {
-    @apply py-16 sm:py-20 lg:py-24;
+    @apply py-12 sm:py-14 lg:py-16;
   }
 
   .btn {

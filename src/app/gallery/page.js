@@ -43,9 +43,10 @@ export default function GalleryPage() {
               >
                 <Image
                   src={photo.src}
-                  alt={photo.caption}
+                  alt={`${photo.caption} — ICI Group, Jhunjhunu`}
                   width={600}
                   height={450}
+                  sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
                   className="h-60 w-full object-cover transition-transform duration-300 group-hover:scale-105"
                 />
                 <figcaption className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/60 to-transparent p-4 font-display font-semibold text-white">
@@ -69,9 +70,11 @@ export default function GalleryPage() {
             title="What our students say"
             subtitle="Hear from learners who transformed their careers with us."
           />
-          <div className="mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+          <div className="mt-10 flex snap-x snap-mandatory gap-5 overflow-x-auto pb-2 [-ms-overflow-style:none] [scrollbar-width:none] sm:mt-12 sm:grid sm:snap-none sm:grid-cols-2 sm:gap-6 sm:overflow-visible lg:grid-cols-3 [&::-webkit-scrollbar]:hidden">
             {testimonials.map((t) => (
-              <TestimonialCard key={t.name} testimonial={t} />
+              <div key={t.name} className="w-[82%] shrink-0 snap-start sm:w-auto sm:shrink">
+                <TestimonialCard testimonial={t} />
+              </div>
             ))}
           </div>
         </div>

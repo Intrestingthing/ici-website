@@ -48,10 +48,10 @@ export const site = {
 
   // ---- Trust stats shown on the site (edit freely) ----
   stats: [
-    { value: "27+", label: "Years of Experience" },
-    { value: "10,000+", label: "Students Trained" },
-    { value: "25+", label: "Courses & Programs" },
-    { value: "1998", label: "Established In" },
+    { value: "27+", label: "Years of Experience", labelHi: "वर्षों का अनुभव" },
+    { value: "10,000+", label: "Students Trained", labelHi: "प्रशिक्षित विद्यार्थी" },
+    { value: "25+", label: "Courses & Programs", labelHi: "कोर्स व कार्यक्रम" },
+    { value: "1998", label: "Established In", labelHi: "स्थापना वर्ष" },
   ],
 
   // ---- Scrolling announcement ticker (edit / add / remove freely) ----
@@ -61,6 +61,12 @@ export const site = {
     "RS-CIT (Govt. of Rajasthan) batches now enrolling",
     "Library memberships available — half-day & full-day seats",
   ],
+  announcementsHi: [
+    "प्रवेश एवं काउंसलिंग 2026 के लिए खुले हैं — अभी नामांकन करें!",
+    "मास्टर डिप्लोमा इन कंप्यूटर एप्लीकेशन (MDCA) के नए बैच जल्द शुरू",
+    "RS-CIT (राजस्थान सरकार) बैच में अभी नामांकन जारी",
+    "लाइब्रेरी सदस्यता उपलब्ध — आधे-दिन व पूरे-दिन की सीट",
+  ],
 
   // ---- The two institutes under ICI Group ----
   // `id` must match the `institute` field used in src/data/courses.js
@@ -68,17 +74,25 @@ export const site = {
     {
       id: "innovative-career-institute",
       name: "Innovative Career Institute",
+      nameHi: "इनोवेटिव करियर इंस्टीट्यूट",
       short: "UG & PG admission counselling",
+      shortHi: "UG व PG प्रवेश काउंसलिंग",
       focus:
         "Personalised counselling and guidance for graduation (UG) and post-graduation (PG) programs through our university partners. We help you choose the right course and university — we do not conduct admissions directly.",
+      focusHi:
+        "हमारे विश्वविद्यालय साझेदारों के माध्यम से स्नातक (UG) और स्नातकोत्तर (PG) कार्यक्रमों के लिए व्यक्तिगत काउंसलिंग व मार्गदर्शन। हम आपको सही कोर्स और विश्वविद्यालय चुनने में मदद करते हैं — हम सीधे प्रवेश नहीं कराते।",
       icon: "GraduationCap",
     },
     {
       id: "indian-computer-institute",
       name: "Indian Computer Institute",
+      nameHi: "इंडियन कंप्यूटर इंस्टीट्यूट",
       short: "Job-oriented computer courses",
+      shortHi: "रोज़गारोन्मुखी कंप्यूटर कोर्स",
       focus:
         "Practical, hands-on computer training taught directly at our institute — diplomas, accounting (Tally/GST), programming, design and more, in classroom and distance modes.",
+      focusHi:
+        "हमारे संस्थान में सीधे दिया जाने वाला प्रैक्टिकल, हैंड्स-ऑन कंप्यूटर प्रशिक्षण — डिप्लोमा, अकाउंटिंग (Tally/GST), प्रोग्रामिंग, डिज़ाइन और भी बहुत कुछ, कक्षा व डिस्टेंस दोनों मोड में।",
       icon: "Laptop",
     },
   ],
@@ -87,14 +101,17 @@ export const site = {
   approvals: {
     geduconnect: {
       title: "Authorized Center — Geduconnect Pvt. Ltd.",
+      titleHi: "अधिकृत केंद्र — Geduconnect Pvt. Ltd.",
       note: "Geduconnect Pvt. Ltd. collaborates with many recognised universities across India for UG & PG programs.",
     },
     aisect: {
       title: "AISECT — SKP Knowledge Provider",
+      titleHi: "AISECT — SKP नॉलेज प्रोवाइडर",
       note: "Associated with AISECT, Bhopal since 2002 as an SKP (Skill Knowledge Provider) center, including AISECT–NSDC skill programs.",
     },
     rkcl: {
       title: "RKCL — Govt. of Rajasthan Authorised Centre",
+      titleHi: "RKCL — राजस्थान सरकार अधिकृत केंद्र",
       note: "Authorised centre of Rajasthan Knowledge Corporation Ltd. (Govt. of Rajasthan) since 2010 for RS-CIT and other RKCL courses.",
     },
     // Other recognitions shown as badges on the About page.
@@ -128,22 +145,34 @@ export const site = {
   events: [
     {
       title: "Skill Development Yatra",
+      titleHi: "कौशल विकास यात्रा",
       text: "An annual outreach drive across rural Shekhawati, spreading awareness about computer skills and self-employment.",
+      textHi:
+        "ग्रामीण शेखावाटी में हर साल निकलने वाली यात्रा, जो कंप्यूटर कौशल और स्वरोज़गार के प्रति जागरूकता फैलाती है।",
       icon: "Route",
     },
     {
       title: "Festivals & Celebrations",
+      titleHi: "त्योहार एवं उत्सव",
       text: "We celebrate festivals and special days together — building a warm, friendly community beyond the classroom.",
+      textHi:
+        "हम त्योहार और खास दिन साथ मनाते हैं — कक्षा से परे एक गर्मजोशी भरा, मित्रवत समुदाय बनाते हैं।",
       icon: "PartyPopper",
     },
     {
       title: "Competitions & Workshops",
+      titleHi: "प्रतियोगिताएँ एवं कार्यशालाएँ",
       text: "Typing contests, project showcases and skill workshops that keep learning fun and hands-on.",
+      textHi:
+        "टाइपिंग प्रतियोगिताएँ, प्रोजेक्ट प्रदर्शन और कौशल कार्यशालाएँ जो सीखने को रोचक व प्रैक्टिकल बनाती हैं।",
       icon: "Trophy",
     },
     {
       title: "Seminars & Career Guidance",
+      titleHi: "सेमिनार एवं करियर मार्गदर्शन",
       text: "Regular seminars on careers, government exams and new technology to guide our students.",
+      textHi:
+        "करियर, सरकारी परीक्षाओं और नई तकनीक पर नियमित सेमिनार जो हमारे विद्यार्थियों का मार्गदर्शन करते हैं।",
       icon: "Presentation",
     },
   ],
