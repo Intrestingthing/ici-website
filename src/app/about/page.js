@@ -1,6 +1,6 @@
 import Image from "next/image";
 import { Target, Eye, Heart, Award, Users, Laptop, ShieldCheck, GraduationCap, Landmark } from "lucide-react";
-import PageHeader from "@/components/PageHeader";
+import TranslatedPageHeader from "@/components/TranslatedPageHeader";
 import SectionHeading from "@/components/SectionHeading";
 import Stats from "@/components/Stats";
 import CTASection from "@/components/CTASection";
@@ -43,10 +43,7 @@ const values = [
 export default function AboutPage() {
   return (
     <>
-      <PageHeader
-        title={`About ${site.name}`}
-        subtitle={`Since ${site.foundedYear}, ${site.name} has helped students in Jhunjhunu choose the right career path and build real skills — through our two institutes.`}
-      />
+      <TranslatedPageHeader titleKey="about.title" subtitleKey="about.subtitle" />
 
       {/* Story */}
       <section className="section">

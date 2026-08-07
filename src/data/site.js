@@ -68,6 +68,44 @@ export const site = {
     "लाइब्रेरी सदस्यता उपलब्ध — आधे-दिन व पूरे-दिन की सीट",
   ],
 
+  // ---- FREE-for-women scheme (top banner + homepage section) ----
+  // Set active:false to hide it, or change the deadline (yyyy-mm-dd). The
+  // banner also auto-hides after the deadline passes.
+  womenOffer: {
+    active: true,
+    deadline: "2026-08-25",
+    // Short banner (pinned above the header on every page)
+    bannerTitle: "FREE for Women",
+    bannerTitleHi: "महिलाओं के लिए निःशुल्क",
+    bannerText: "RS-CIT & RS-CFA (Tally) — free admission till 25 August 2026",
+    bannerTextHi: "RS-CIT व RS-CFA (Tally) — 25 अगस्त 2026 तक निःशुल्क प्रवेश",
+    cta: "Enrol Free",
+    ctaHi: "निःशुल्क नामांकन",
+    // Homepage section
+    eyebrow: "Special Scheme for Women",
+    eyebrowHi: "महिलाओं के लिए विशेष योजना",
+    title: "Free Computer Courses for Women",
+    titleHi: "महिलाओं के लिए निःशुल्क कंप्यूटर कोर्स",
+    text: "Under our special women's empowerment scheme, RS-CIT and RS-CFA (Tally) are completely FREE for women — enrol before 25 August 2026. No course fee, with study material and certification support included.",
+    textHi: "हमारी विशेष महिला-सशक्तिकरण योजना के तहत RS-CIT और RS-CFA (Tally) महिलाओं के लिए पूरी तरह निःशुल्क हैं — 25 अगस्त 2026 से पहले नामांकन करें। कोई कोर्स शुल्क नहीं, अध्ययन सामग्री व प्रमाणपत्र सहायता शामिल।",
+    deadlineLabel: "Free till 25 August 2026",
+    deadlineLabelHi: "25 अगस्त 2026 तक निःशुल्क",
+    courses: [
+      {
+        name: "RS-CIT",
+        slug: "rs-cit",
+        desc: "Govt. of Rajasthan computer certificate",
+        descHi: "राजस्थान सरकार कंप्यूटर प्रमाणपत्र",
+      },
+      {
+        name: "RS-CFA (Tally)",
+        slug: "rs-cfa",
+        desc: "Computerised accounting with Tally",
+        descHi: "Tally के साथ कंप्यूटरीकृत अकाउंटिंग",
+      },
+    ],
+  },
+
   // ---- The two institutes under ICI Group ----
   // `id` must match the `institute` field used in src/data/courses.js
   institutes: [

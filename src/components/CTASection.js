@@ -17,7 +17,7 @@ export default function CTASection({ title, subtitle }) {
   return (
     <section className="section">
       <div className="container-px">
-        <div className="relative overflow-hidden rounded-3xl bg-brand-800 px-6 py-14 text-center sm:px-12 lg:py-16">
+        <div className="relative overflow-hidden rounded-3xl bg-gradient-to-br from-brand-700 via-violet-700 to-fuchsia-700 px-6 py-14 text-center sm:px-12 lg:py-16">
           {/* Faint ICI building watermark */}
           <Image
             src="/images/photos/building.jpg"

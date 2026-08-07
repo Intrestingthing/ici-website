@@ -1,6 +1,6 @@
 import Image from "next/image";
 import { Clock, Sun, CalendarDays, Snowflake, Droplets, Armchair, Leaf, Users, BookOpen, Trophy } from "lucide-react";
-import PageHeader from "@/components/PageHeader";
+import TranslatedPageHeader from "@/components/TranslatedPageHeader";
 import SectionHeading from "@/components/SectionHeading";
 import CTASection from "@/components/CTASection";
 import { site } from "@/data/site";
@@ -25,10 +25,7 @@ export default function LibraryPage() {
 
   return (
     <>
-      <PageHeader
-        title="Our Library"
-        subtitle="A quiet, comfortable place to study, prepare for exams and focus — right here at ICI Group, Jhunjhunu."
-      />
+      <TranslatedPageHeader titleKey="lib.title" subtitleKey="lib.subtitle" />
 
       {/* Intro with photo */}
       <section className="section">

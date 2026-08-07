@@ -1,6 +1,8 @@
+"use client";
+
 import Link from "next/link";
 import { Clock, ArrowRight } from "lucide-react";
-import { getInstitute } from "@/data/site";
+import { useLang } from "@/i18n/LanguageProvider";
 
 // Thin top-accent colour by category (a subtle cue — the filter handles category text).
 const categoryBar = {
@@ -13,14 +15,14 @@ const categoryBar = {
   govt: "bg-rose-500",
 };
 
-// One visual cue for the institute (colour + short label).
+// One visual cue for the institute (colour + short-label dict key).
 const instituteCue = {
-  "innovative-career-institute": { dot: "bg-violet-500", label: "Career Institute" },
-  "indian-computer-institute": { dot: "bg-sky-500", label: "Computer Institute" },
+  "innovative-career-institute": { dot: "bg-violet-500", key: "cue.career" },
+  "indian-computer-institute": { dot: "bg-sky-500", key: "cue.computer" },
 };
 
 export default function CourseCard({ course }) {
-  const institute = getInstitute(course.institute);
+  const { t, pick } = useLang();
   const cue = instituteCue[course.institute];
 
   return (
@@ -31,10 +33,10 @@ export default function CourseCard({ course }) {
       <span className={`block h-1.5 w-full ${categoryBar[course.category] ?? "bg-brand-500"}`} />
       <div className="flex flex-1 flex-col p-5">
         <h3 className="font-display text-base font-semibold leading-snug text-slate-900 group-hover:text-brand-700">
-          {course.title}
+          {pick(course, "title")}
         </h3>
         <p className="mt-1.5 line-clamp-2 flex-1 text-sm leading-relaxed text-slate-600">
-          {course.short}
+          {pick(course, "short")}
         </p>
 
         <div className="mt-4 flex items-center justify-between gap-2">
@@ -44,13 +46,13 @@ export default function CourseCard({ course }) {
           {cue && (
             <span className="inline-flex items-center gap-1.5 text-xs font-medium text-slate-500">
               <span className={`h-2 w-2 rounded-full ${cue.dot}`} />
-              {cue.label}
+              {t(cue.key)}
             </span>
           )}
         </div>
 
         <span className="mt-3 inline-flex items-center gap-1 text-sm font-semibold text-brand-700">
-          View details
+          {t("cta.viewDetails")}
           <ArrowRight size={15} className="transition-transform group-hover:translate-x-1" />
         </span>
       </div>

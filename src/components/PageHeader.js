@@ -1,5 +1,8 @@
+"use client";
+
 import Link from "next/link";
 import { ChevronRight } from "lucide-react";
+import { useLang } from "@/i18n/LanguageProvider";
 
 /*
   Breadcrumb: "Home" is always first; pass `trail` as the rest of the path
@@ -7,10 +10,11 @@ import { ChevronRight } from "lucide-react";
   e.g. <PageHeader title="RS-CIT…" trail={[{label:"Courses", href:"/courses"}, {label:"RS-CIT"}]} />
 */
 export default function PageHeader({ title, subtitle, trail }) {
-  const crumbs = [{ label: "Home", href: "/" }, ...(trail ?? [{ label: title }])];
+  const { t } = useLang();
+  const crumbs = [{ label: t("nav.home"), href: "/" }, ...(trail ?? [{ label: title }])];
 
   return (
-    <section className="border-b border-slate-100 bg-gradient-to-br from-brand-50 via-sky-50 to-accent-50">
+    <section className="border-b border-slate-100 bg-gradient-to-br from-brand-100 via-violet-50 to-fuchsia-50">
       <div className="container-px py-10 sm:py-14">
         <nav aria-label="Breadcrumb" className="flex flex-wrap items-center gap-1 text-sm text-slate-500">
           {crumbs.map((c, i) => {

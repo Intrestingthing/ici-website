@@ -26,7 +26,7 @@ export default function Navbar() {
     <header className="sticky top-0 z-50">
       {/* Top utility bar — full form + contact */}
       <div className="bg-brand-950 text-white">
-        <div className="container-px flex h-9 items-center justify-between gap-3 text-[11px] sm:text-xs">
+        <div className="container-px flex h-9 items-center justify-between gap-3 text-xs sm:text-[13px]">
           {/* Full institute names — sm and up only */}
           <span className="hidden truncate font-medium tracking-wide text-brand-100 sm:block">
             {t("topbar.institutes")}
@@ -80,7 +80,7 @@ export default function Navbar() {
               <Link
                 key={link.href}
                 href={link.href}
-                className={`rounded-full px-3.5 py-2 text-sm font-medium transition-colors ${
+                className={`rounded-full px-3.5 py-2 text-base font-semibold transition-colors ${
                   isActive(link.href)
                     ? "bg-brand-50 text-brand-700"
                     : "text-slate-600 hover:text-brand-700"

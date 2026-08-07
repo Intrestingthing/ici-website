@@ -4,6 +4,7 @@ import { useState } from "react";
 import { Send, MessageCircle, CheckCircle2, AlertCircle, Loader2, PhoneCall } from "lucide-react";
 import { site } from "@/data/site";
 import { courses } from "@/data/courses";
+import { useLang } from "@/i18n/LanguageProvider";
 
 const initialState = {
   name: "",
@@ -14,9 +15,14 @@ const initialState = {
   message: "",
 };
 
-const MODES = ["Classroom", "Online", "Distance"];
+const MODES = [
+  { value: "Classroom", key: "form.classroom" },
+  { value: "Online", key: "form.online" },
+  { value: "Distance", key: "form.distance" },
+];
 
 export default function EnquiryForm() {
+  const { t } = useLang();
   const [form, setForm] = useState(initialState);
   const [errors, setErrors] = useState({});
   const [status, setStatus] = useState("idle"); // idle | loading | success | error
@@ -28,12 +34,11 @@ export default function EnquiryForm() {
 
   const validate = () => {
     const next = {};
-    if (!form.name.trim()) next.name = "Please enter your name.";
-    if (!/^[0-9+\-\s]{7,15}$/.test(form.phone.trim()))
-      next.phone = "Please enter a valid phone number.";
+    if (!form.name.trim()) next.name = t("form.errName");
+    if (!/^[0-9+\-\s]{7,15}$/.test(form.phone.trim())) next.phone = t("form.errPhone");
     if (form.email && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(form.email.trim()))
-      next.email = "Please enter a valid email address.";
-    if (!form.course) next.course = "Please choose a course.";
+      next.email = t("form.errEmail");
+    if (!form.course) next.course = t("form.errCourse");
     setErrors(next);
     return Object.keys(next).length === 0;
   };
@@ -55,7 +60,6 @@ export default function EnquiryForm() {
     e.preventDefault();
     if (!validate()) return;
 
-    // If an email backend is configured, send there too (fire-and-forget).
     if (site.formspreeEndpoint) {
       setStatus("loading");
       try {
@@ -71,10 +75,6 @@ export default function EnquiryForm() {
         return;
       }
     }
-
-    // WhatsApp-first: show the thank-you state. We DON'T auto-open WhatsApp
-    // (that can be blocked / navigate away and lose the details on mobile).
-    // The user taps the button below to send — reliable, no data loss.
     setStatus("success");
   };
 
@@ -84,25 +84,23 @@ export default function EnquiryForm() {
       <div className="card flex flex-col items-center p-8 text-center">
         <CheckCircle2 className="text-emerald-500" size={56} />
         <h3 className="mt-4 font-display text-2xl font-bold text-slate-900">
-          Thank you{form.name ? `, ${form.name.split(" ")[0]}` : ""}!
+          {t("form.thanks")}
+          {form.name ? `, ${form.name.split(" ")[0]}` : ""}!
         </h3>
-        <p className="mt-2 max-w-md text-slate-600">
-          Your enquiry has been noted. <strong>Our counsellor will call you within 24 hours</strong>{" "}
-          (Mon–Sat). To reach us faster, tap below to send your details on WhatsApp.
-        </p>
+        <p className="mt-2 max-w-md text-slate-600">{t("form.thanksBody")}</p>
         <a
           href={buildWhatsAppLink()}
           target="_blank"
           rel="noopener noreferrer"
           className="btn mt-6 w-full bg-emerald-600 text-white hover:bg-emerald-700 sm:w-auto"
         >
-          <MessageCircle size={18} /> Send my details on WhatsApp
+          <MessageCircle size={18} /> {t("form.sendWa")}
         </a>
         <a
           href={`tel:${site.phone.replace(/\s/g, "")}`}
           className="mt-3 flex items-center gap-2 text-sm font-semibold text-brand-700"
         >
-          <PhoneCall size={16} /> or call {site.phone}
+          <PhoneCall size={16} /> {t("form.orCall")} {site.phone}
         </a>
         <button
           type="button"
@@ -112,7 +110,7 @@ export default function EnquiryForm() {
           }}
           className="mt-5 text-sm font-medium text-slate-400 underline hover:text-slate-600"
         >
-          Submit another enquiry
+          {t("form.another")}
         </button>
       </div>
     );
@@ -128,7 +126,7 @@ export default function EnquiryForm() {
       <div className="grid gap-5 sm:grid-cols-2">
         <div>
           <label htmlFor="name" className={labelClass}>
-            Full Name *
+            {t("form.name")} *
           </label>
           <input
             id="name"
@@ -137,14 +135,14 @@ export default function EnquiryForm() {
             value={form.name}
             onChange={update}
             className={inputClass}
-            placeholder="e.g. Rahul Sharma"
+            placeholder={t("form.namePh")}
           />
           {errors.name && <p className={errClass}>{errors.name}</p>}
         </div>
 
         <div>
           <label htmlFor="phone" className={labelClass}>
-            Phone Number *
+            {t("form.phone")} *
           </label>
           <input
             id="phone"
@@ -155,14 +153,14 @@ export default function EnquiryForm() {
             value={form.phone}
             onChange={update}
             className={inputClass}
-            placeholder="e.g. 98765 43210"
+            placeholder={t("form.phonePh")}
           />
           {errors.phone && <p className={errClass}>{errors.phone}</p>}
         </div>
 
         <div>
           <label htmlFor="email" className={labelClass}>
-            Email (optional)
+            {t("form.email")}
           </label>
           <input
             id="email"
@@ -173,14 +171,14 @@ export default function EnquiryForm() {
             value={form.email}
             onChange={update}
             className={inputClass}
-            placeholder="you@example.com"
+            placeholder={t("form.emailPh")}
           />
           {errors.email && <p className={errClass}>{errors.email}</p>}
         </div>
 
         <div>
           <label htmlFor="course" className={labelClass}>
-            Course of Interest *
+            {t("form.course")} *
           </label>
           <select
             id="course"
@@ -189,7 +187,7 @@ export default function EnquiryForm() {
             onChange={update}
             className={inputClass}
           >
-            <option value="">Select a course…</option>
+            <option value="">{t("form.selectCourse")}</option>
             {courses.map((c) => (
               <option key={c.slug} value={c.title}>
                 {c.title}
@@ -201,21 +199,21 @@ export default function EnquiryForm() {
       </div>
 
       <fieldset className="mt-5">
-        <legend className={labelClass}>Preferred Mode</legend>
+        <legend className={labelClass}>{t("form.mode")}</legend>
         <div className="grid grid-cols-3 gap-2">
           {MODES.map((mode) => (
             <button
-              key={mode}
+              key={mode.value}
               type="button"
-              onClick={() => setForm({ ...form, mode })}
-              aria-pressed={form.mode === mode}
+              onClick={() => setForm({ ...form, mode: mode.value })}
+              aria-pressed={form.mode === mode.value}
               className={`min-h-12 rounded-xl border px-2 py-3 text-sm font-semibold transition ${
-                form.mode === mode
+                form.mode === mode.value
                   ? "border-brand-500 bg-brand-50 text-brand-700 ring-2 ring-brand-100"
                   : "border-slate-200 text-slate-600 hover:border-brand-200"
               }`}
             >
-              {mode}
+              {t(mode.key)}
             </button>
           ))}
         </div>
@@ -223,7 +221,7 @@ export default function EnquiryForm() {
 
       <div className="mt-5">
         <label htmlFor="message" className={labelClass}>
-          Message (optional)
+          {t("form.message")}
         </label>
         <textarea
           id="message"
@@ -232,13 +230,13 @@ export default function EnquiryForm() {
           value={form.message}
           onChange={update}
           className={inputClass}
-          placeholder="Any questions about timings, fees, or the course?"
+          placeholder={t("form.messagePh")}
         />
       </div>
 
       {status === "error" && (
         <p className="mt-4 flex items-center gap-2 rounded-xl bg-red-50 px-4 py-3 text-sm text-red-600">
-          <AlertCircle size={16} /> Something went wrong. Please try the WhatsApp button below.
+          <AlertCircle size={16} /> {t("form.errGeneric")}
         </p>
       )}
 
@@ -249,17 +247,15 @@ export default function EnquiryForm() {
       >
         {status === "loading" ? (
           <>
-            <Loader2 size={18} className="animate-spin" /> Sending…
+            <Loader2 size={18} className="animate-spin" /> {t("form.sending")}
           </>
         ) : (
           <>
-            <Send size={18} /> Submit Enquiry
+            <Send size={18} /> {t("form.submit")}
           </>
         )}
       </button>
-      <p className="mt-3 text-center text-xs text-slate-400">
-        Our counsellor will call you back within 24 hours (Mon–Sat).
-      </p>
+      <p className="mt-3 text-center text-xs text-slate-400">{t("form.callback")}</p>
     </form>
   );
 }

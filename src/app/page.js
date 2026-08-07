@@ -15,6 +15,8 @@ import {
   BookOpen,
   Keyboard,
   PhoneCall,
+  Sparkles,
+  MessageCircle,
 } from "lucide-react";
 import SectionHeading from "@/components/SectionHeading";
 import CourseCard from "@/components/CourseCard";
@@ -37,8 +39,15 @@ const whyChoose = [
 ];
 
 export default function Home() {
-  const { t } = useLang();
+  const { t, pick } = useLang();
   const featured = getFeaturedCourses();
+
+  const offer = site.womenOffer;
+  const offerLive =
+    offer?.active && new Date() <= new Date(`${offer.deadline}T23:59:59`);
+  const offerWa = encodeURIComponent(
+    `Hello ${site.name}, I'm interested in the FREE women's scheme (RS-CIT / RS-CFA Tally).`
+  );
 
   return (
     <>
@@ -51,13 +60,14 @@ export default function Home() {
             fill
             priority
             sizes="100vw"
-            className="object-cover object-[center_38%]"
+            className="object-cover object-[center_30%]"
           />
-          {/* Dark overlay — heavier on the left so the text stays readable */}
-          <div className="absolute inset-0 bg-gradient-to-r from-brand-950/95 via-brand-900/85 to-brand-900/55" />
+          {/* Bold multi-colour overlay — darker on the left so text stays readable */}
+          <div className="absolute inset-0 bg-gradient-to-r from-brand-950/95 via-violet-900/80 to-fuchsia-800/40" />
+          <div className="absolute inset-0 bg-gradient-to-t from-brand-950/70 via-transparent to-transparent" />
         </div>
 
-        <div className="container-px relative py-16 sm:py-24 lg:py-28">
+        <div className="container-px relative py-16 sm:py-28 lg:py-40">
           <div className="max-w-2xl">
             <span className="inline-block rounded-full bg-white/15 px-3 py-1 text-xs font-semibold uppercase tracking-wider text-white ring-1 ring-white/25">
               {t("hero.badge")}
@@ -89,8 +99,64 @@ export default function Home() {
         </div>
       </section>
 
+      {/* FREE-for-women scheme */}
+      {offerLive && (
+        <section className="section pb-0 pt-10">
+          <div className="container-px">
+            <div className="relative overflow-hidden rounded-3xl bg-gradient-to-br from-rose-500 via-fuchsia-600 to-violet-700 p-8 text-white shadow-lg sm:p-12">
+              <div className="pointer-events-none absolute -right-10 -top-12 h-44 w-44 rounded-full bg-white/10" />
+              <div className="pointer-events-none absolute -bottom-16 left-1/4 h-52 w-52 rounded-full bg-white/5" />
+              <div className="relative grid items-center gap-8 lg:grid-cols-2">
+                <div>
+                  <span className="inline-flex items-center gap-2 rounded-full bg-white/20 px-3 py-1 text-xs font-bold uppercase tracking-wider">
+                    <Sparkles size={14} className="text-yellow-200" /> {pick(offer, "eyebrow")}
+                  </span>
+                  <h2 className="mt-4 font-display text-3xl font-extrabold sm:text-4xl">
+                    {pick(offer, "title")}
+                  </h2>
+                  <p className="mt-3 text-lg text-white/90">{pick(offer, "text")}</p>
+                  <span className="mt-5 inline-flex items-center gap-2 rounded-full bg-yellow-300 px-4 py-1.5 text-sm font-extrabold text-fuchsia-900">
+                    <Clock size={16} /> {pick(offer, "deadlineLabel")}
+                  </span>
+                  <div className="mt-6 flex flex-col gap-3 sm:flex-row">
+                    <Link href="/admissions" className="btn bg-white text-fuchsia-700 hover:bg-yellow-100">
+                      {pick(offer, "cta")} <ArrowRight size={16} />
+                    </Link>
+                    <a
+                      href={`https://wa.me/${site.whatsapp}?text=${offerWa}`}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="btn border border-white/40 bg-white/10 text-white hover:bg-white/20"
+                    >
+                      <MessageCircle size={16} /> {t("cta.whatsapp")}
+                    </a>
+                  </div>
+                </div>
+                <div className="grid gap-3">
+                  {offer.courses.map((c) => (
+                    <Link
+                      key={c.slug}
+                      href={`/courses/${c.slug}`}
+                      className="flex items-center justify-between gap-3 rounded-2xl bg-white/15 p-4 transition hover:bg-white/25"
+                    >
+                      <span className="min-w-0">
+                        <span className="block font-bold">{c.name}</span>
+                        <span className="block text-sm text-white/80">{pick(c, "desc")}</span>
+                      </span>
+                      <span className="shrink-0 rounded-full bg-yellow-300 px-3 py-1 text-xs font-extrabold text-fuchsia-900">
+                        FREE
+                      </span>
+                    </Link>
+                  ))}
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+      )}
+
       {/* Stats */}
-      <section className="bg-gradient-to-r from-brand-700 via-brand-800 to-brand-900 py-12">
+      <section className="bg-gradient-to-r from-brand-700 via-violet-700 to-fuchsia-700 py-12">
         <div className="container-px">
           <Stats dark />
         </div>
@@ -186,7 +252,7 @@ export default function Home() {
       </section>
 
       {/* Why choose us */}
-      <section className="section bg-slate-50">
+      <section className="section bg-gradient-to-b from-violet-50 to-white">
         <div className="container-px">
           <SectionHeading
             center
@@ -237,7 +303,7 @@ export default function Home() {
       {/* Distance / online learning teaser */}
       <section className="section">
         <div className="container-px">
-          <div className="grid items-center gap-10 rounded-3xl bg-brand-700 p-8 text-white sm:p-12 lg:grid-cols-2">
+          <div className="grid items-center gap-10 rounded-3xl bg-gradient-to-br from-indigo-600 via-brand-700 to-cyan-600 p-8 text-white sm:p-12 lg:grid-cols-2">
             <div>
               <span className="inline-flex items-center gap-2 rounded-full bg-white/15 px-3 py-1 text-xs font-semibold uppercase tracking-wider">
                 <Wifi size={14} /> {t("home.distance.badge")}
@@ -270,7 +336,7 @@ export default function Home() {
       {/* Library teaser */}
       <section className="section">
         <div className="container-px">
-          <div className="flex flex-col items-start gap-8 rounded-3xl border border-slate-100 bg-slate-50 p-8 sm:p-12 lg:flex-row lg:items-center lg:justify-between">
+          <div className="flex flex-col items-start gap-8 rounded-3xl border border-emerald-100 bg-gradient-to-br from-emerald-50 to-teal-50 p-8 sm:p-12 lg:flex-row lg:items-center lg:justify-between">
             <div className="max-w-xl">
               <span className="eyebrow">{t("home.library.badge")}</span>
               <h2 className="mt-3 font-display text-2xl font-bold text-slate-900 sm:text-3xl">
@@ -286,7 +352,7 @@ export default function Home() {
       </section>
 
       {/* Testimonials */}
-      <section className="section bg-slate-50">
+      <section className="section bg-gradient-to-b from-rose-50 to-white">
         <div className="container-px">
           <SectionHeading
             center

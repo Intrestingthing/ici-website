@@ -1,5 +1,5 @@
 import Image from "next/image";
-import PageHeader from "@/components/PageHeader";
+import TranslatedPageHeader from "@/components/TranslatedPageHeader";
 import SectionHeading from "@/components/SectionHeading";
 import TestimonialCard from "@/components/TestimonialCard";
 import CTASection from "@/components/CTASection";
@@ -27,10 +27,7 @@ const photos = [
 export default function GalleryPage() {
   return (
     <>
-      <PageHeader
-        title="Gallery"
-        subtitle="Take a look at our learning environment, training sessions and the moments that make ICI special."
-      />
+      <TranslatedPageHeader titleKey="gallery.title" subtitleKey="gallery.subtitle" />
 
       {/* Photo grid */}
       <section className="section">

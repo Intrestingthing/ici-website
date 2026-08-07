@@ -4,6 +4,7 @@ import Navbar from "@/components/Navbar";
 import AnnouncementBar from "@/components/AnnouncementBar";
 import Footer from "@/components/Footer";
 import MobileActionBar from "@/components/MobileActionBar";
+import OfferBanner from "@/components/OfferBanner";
 import { LanguageProvider } from "@/i18n/LanguageProvider";
 import { site } from "@/data/site";
 
@@ -31,6 +32,7 @@ export const metadata = {
   description: site.description,
   keywords: [
     "ICI Group",
+    "ICI",
     "ICI Computer Center",
     "Innovative Career Institute",
     "Indian Computer Institute",
@@ -95,6 +97,7 @@ export default function RootLayout({ children }) {
           dangerouslySetInnerHTML={{ __html: JSON.stringify(orgSchema) }}
         />
         <LanguageProvider>
+          <OfferBanner />
           <Navbar />
           <AnnouncementBar />
           <main className="w-full flex-1 overflow-x-clip">{children}</main>

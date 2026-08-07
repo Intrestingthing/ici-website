@@ -10,7 +10,7 @@ import {
   MessageSquare,
   ArrowRight,
 } from "lucide-react";
-import PageHeader from "@/components/PageHeader";
+import TranslatedPageHeader from "@/components/TranslatedPageHeader";
 import SectionHeading from "@/components/SectionHeading";
 import CourseCard from "@/components/CourseCard";
 import CTASection from "@/components/CTASection";
@@ -63,10 +63,7 @@ export default function OnlineLearningPage() {
 
   return (
     <>
-      <PageHeader
-        title="Online Learning"
-        subtitle="Study our computer courses from anywhere. Choose live online classes with a teacher, or flexible self-paced distance learning — whichever fits your life."
-      />
+      <TranslatedPageHeader titleKey="online.title" subtitleKey="online.subtitle" />
 
       {/* Two ways to learn online */}
       <section className="section">

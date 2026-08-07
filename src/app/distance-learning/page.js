@@ -12,7 +12,7 @@ import {
   GraduationCap,
   ArrowRight,
 } from "lucide-react";
-import PageHeader from "@/components/PageHeader";
+import TranslatedPageHeader from "@/components/TranslatedPageHeader";
 import SectionHeading from "@/components/SectionHeading";
 import CourseCard from "@/components/CourseCard";
 import CTASection from "@/components/CTASection";
@@ -48,10 +48,7 @@ export default function DistanceLearningPage() {
 
   return (
     <>
-      <PageHeader
-        title="Distance Learning"
-        subtitle="Can't attend classes in person? Learn computer skills from the comfort of your home with flexible, fully-supported online programs."
-      />
+      <TranslatedPageHeader titleKey="distance.title" subtitleKey="distance.subtitle" />
 
       {/* Intro */}
       <section className="section">

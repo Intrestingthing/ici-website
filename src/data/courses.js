@@ -19,13 +19,13 @@
 */
 
 export const categories = [
-  { id: "ug", label: "UG Courses" },
-  { id: "pg", label: "PG Courses" },
-  { id: "diploma", label: "Diploma" },
-  { id: "accounting", label: "Accounting" },
-  { id: "design", label: "Design" },
-  { id: "programming", label: "Programming" },
-  { id: "govt", label: "Govt / RKCL" },
+  { id: "ug", label: "UG Courses", labelHi: "UG कोर्स" },
+  { id: "pg", label: "PG Courses", labelHi: "PG कोर्स" },
+  { id: "diploma", label: "Diploma", labelHi: "डिप्लोमा" },
+  { id: "accounting", label: "Accounting", labelHi: "अकाउंटिंग" },
+  { id: "design", label: "Design", labelHi: "डिज़ाइन" },
+  { id: "programming", label: "Programming", labelHi: "प्रोग्रामिंग" },
+  { id: "govt", label: "Govt / RKCL", labelHi: "सरकारी / RKCL" },
 ];
 
 // Shown as a small note on every UG/PG (counsellingOnly) course.
@@ -483,8 +483,10 @@ export const courses = [
   },
   {
     slug: "typing",
-    title: "Hindi & English Typing — LDC Exam Special",
-    short: "LDC-focused typing with a personal tutor & dedicated mentor.",
+    title: "Hindi & English Typing",
+    short: "Build typing speed & accuracy with a personal tutor & mentor.",
+    titleHi: "हिंदी एवं अंग्रेज़ी टाइपिंग",
+    shortHi: "पर्सनल ट्यूटर व मेंटर के साथ टाइपिंग गति व शुद्धता बढ़ाएं।",
     category: "diploma",
     institute: "indian-computer-institute",
     duration: "2 Months",
@@ -493,16 +495,16 @@ export const courses = [
     online: true,
     featured: false,
     description:
-      "Typing speed and accuracy can make or break the LDC (Lower Division Clerk) and other government exam typing tests. At ICI you don't just practise on software — every student gets a personal tutor and a dedicated mentor who correct your technique one-on-one and build your Hindi and English speed to the exact standard the LDC exam demands.",
+      "Fast, accurate typing in both Hindi and English is a valuable skill for office jobs, data entry, government exams and daily computer work. At ICI you don't just practise on software — every student gets a personal tutor and a dedicated mentor who correct your technique one-on-one and steadily build your speed and accuracy. It's also great preparation for government typing tests such as the LDC exam.",
     highlights: [
-      "LDC exam-focused typing practice (Hindi & English)",
       "Personal tutor for every student",
       "Dedicated mentor to guide & motivate you",
       "Hindi (Mangal / Kruti Dev) & English typing",
-      "Speed + accuracy drills matched to exam norms",
-      "Regular mock typing tests",
+      "Touch-typing technique, speed & accuracy drills",
+      "Regular practice tests",
+      "Useful for office work & government typing exams (LDC, etc.)",
     ],
-    eligibility: "Open to all. Ideal for LDC & government exam aspirants.",
+    eligibility: "Open to all — students, job-seekers and government-exam aspirants.",
   },
 
   /* =====================  ACCOUNTING (Indian Computer Institute)  ===================== */

@@ -105,10 +105,10 @@ body {
     @apply inline-flex items-center justify-center gap-2 rounded-full px-6 py-3 text-sm font-semibold transition-all focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2;
   }
   .btn-primary {
-    @apply inline-flex items-center justify-center gap-2 rounded-full px-6 py-3 text-sm font-semibold transition-all focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 bg-brand-700 text-white shadow-sm hover:bg-brand-800 focus-visible:ring-brand-500;
+    @apply inline-flex items-center justify-center gap-2 rounded-full px-6 py-3 text-sm font-semibold transition-all focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 bg-gradient-to-r from-brand-600 to-violet-600 text-white shadow-md hover:from-brand-700 hover:to-violet-700 focus-visible:ring-brand-500;
   }
   .btn-accent {
-    @apply inline-flex items-center justify-center gap-2 rounded-full px-6 py-3 text-sm font-semibold transition-all focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 bg-accent-500 text-slate-900 shadow-sm hover:bg-accent-400 focus-visible:ring-accent-500;
+    @apply inline-flex items-center justify-center gap-2 rounded-full px-6 py-3 text-sm font-semibold transition-all focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 bg-gradient-to-r from-amber-400 to-orange-500 text-slate-900 shadow-md hover:from-amber-300 hover:to-orange-400 focus-visible:ring-amber-500;
   }
   .btn-outline {
     @apply inline-flex items-center justify-center gap-2 rounded-full px-6 py-3 text-sm font-semibold transition-all focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 border border-brand-200 bg-white text-brand-700 hover:bg-brand-50 focus-visible:ring-brand-500;

@@ -2,8 +2,10 @@
 
 import { useState } from "react";
 import { ChevronDown } from "lucide-react";
+import { useLang } from "@/i18n/LanguageProvider";
 
 export default function Faq({ items }) {
+  const { pick } = useLang();
   const [open, setOpen] = useState(0);
 
   return (
@@ -18,14 +20,14 @@ export default function Faq({ items }) {
               aria-expanded={isOpen}
               className="flex w-full items-center justify-between gap-4 px-5 py-4 text-left"
             >
-              <span className="font-semibold text-slate-900">{item.q}</span>
+              <span className="font-semibold text-slate-900">{pick(item, "q")}</span>
               <ChevronDown
                 size={20}
                 className={`shrink-0 text-brand-600 transition-transform ${isOpen ? "rotate-180" : ""}`}
               />
             </button>
             {isOpen && (
-              <div className="px-5 pb-4 text-sm leading-relaxed text-slate-600">{item.a}</div>
+              <div className="px-5 pb-4 text-sm leading-relaxed text-slate-600">{pick(item, "a")}</div>
             )}
           </div>
         );

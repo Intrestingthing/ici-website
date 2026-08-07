@@ -4,8 +4,10 @@ import { useState } from "react";
 import CourseCard from "@/components/CourseCard";
 import { courses, categories } from "@/data/courses";
 import { site } from "@/data/site";
+import { useLang } from "@/i18n/LanguageProvider";
 
 export default function CoursesBrowser() {
+  const { t, pick } = useLang();
   const [category, setCategory] = useState("all");
   const [institute, setInstitute] = useState("all");
 
@@ -15,10 +17,13 @@ export default function CoursesBrowser() {
       (institute === "all" || c.institute === institute)
   );
 
-  const categoryFilters = [{ id: "all", label: "All Categories" }, ...categories];
+  const categoryFilters = [
+    { id: "all", label: t("courses.allCategories") },
+    ...categories.map((c) => ({ id: c.id, label: pick(c, "label") })),
+  ];
   const instituteFilters = [
-    { id: "all", label: "Both Institutes" },
-    ...site.institutes.map((i) => ({ id: i.id, label: i.name })),
+    { id: "all", label: t("courses.allInstitutes") },
+    ...site.institutes.map((i) => ({ id: i.id, label: pick(i, "name") })),
   ];
 
   return (
@@ -26,7 +31,7 @@ export default function CoursesBrowser() {
       {/* Institute filter */}
       <div className="flex flex-wrap items-center gap-2">
         <span className="mr-1 text-xs font-semibold uppercase tracking-wider text-slate-400">
-          Institute
+          {t("courses.filterInstitute")}
         </span>
         {instituteFilters.map((f) => (
           <button
@@ -47,7 +52,7 @@ export default function CoursesBrowser() {
       {/* Category filter */}
       <div className="mt-4 flex flex-wrap items-center gap-2">
         <span className="mr-1 text-xs font-semibold uppercase tracking-wider text-slate-400">
-          Category
+          {t("courses.filterCategory")}
         </span>
         {categoryFilters.map((f) => (
           <button
@@ -73,9 +78,7 @@ export default function CoursesBrowser() {
       </div>
 
       {filtered.length === 0 && (
-        <p className="mt-10 text-center text-slate-500">
-          No courses match this filter. Try a different combination.
-        </p>
+        <p className="mt-10 text-center text-slate-500">{t("courses.none")}</p>
       )}
     </div>
   );
