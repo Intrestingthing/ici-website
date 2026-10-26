@@ -30,6 +30,7 @@ import { getFeaturedCourses } from "@/data/courses";
 import { testimonials } from "@/data/testimonials";
 import { site } from "@/data/site";
 import { useLang } from "@/i18n/LanguageProvider";
+import { track } from "@/lib/analytics";
 
 const whyChoose = [
   { icon: Award, k: "1", color: "bg-amber-100 text-amber-600" },
@@ -126,6 +127,7 @@ export default function Home() {
                       href={`https://wa.me/${site.whatsapp}?text=${offerWa}`}
                       target="_blank"
                       rel="noopener noreferrer"
+                      onClick={() => track("whatsapp_click", { source: "women_offer" })}
                       className="btn border border-white/40 bg-white/10 text-white hover:bg-white/20"
                     >
                       <MessageCircle size={16} /> {t("cta.whatsapp")}
@@ -291,6 +293,7 @@ export default function Home() {
               </Link>
               <a
                 href={`tel:${site.phone.replace(/\s/g, "")}`}
+                onClick={() => track("call_click", { source: "home_mid" })}
                 className="btn border border-white/30 bg-white/10 text-white hover:bg-white/20"
               >
                 <PhoneCall size={16} /> {t("cta.callUs")}

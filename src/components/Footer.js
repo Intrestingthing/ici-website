@@ -7,6 +7,7 @@ import { navLinks, footerExtraLinks } from "@/data/nav";
 import { getFeaturedCourses } from "@/data/courses";
 import FooterSection from "@/components/FooterSection";
 import { useLang } from "@/i18n/LanguageProvider";
+import { track } from "@/lib/analytics";
 
 /* Inline brand SVGs (lucide removed brand icons). 18x18, currentColor. */
 const iconProps = { width: 18, height: 18, viewBox: "0 0 24 24", fill: "currentColor", "aria-hidden": true };
@@ -115,12 +116,17 @@ export default function Footer() {
               <Phone size={18} className="mt-0.5 shrink-0 text-accent-400" />
               {/* Stacked so the two numbers are separate tap targets */}
               <span className="flex flex-col gap-1">
-                <a href={`tel:${site.phone.replace(/\s/g, "")}`} className="py-0.5 hover:text-accent-400">
+                <a
+                  href={`tel:${site.phone.replace(/\s/g, "")}`}
+                  onClick={() => track("call_click", { source: "footer" })}
+                  className="py-0.5 hover:text-accent-400"
+                >
                   {site.phone}
                 </a>
                 {site.phoneAlt && (
                   <a
                     href={`tel:${site.phoneAlt.replace(/\s/g, "")}`}
+                    onClick={() => track("call_click", { source: "footer_alt" })}
                     className="py-0.5 hover:text-accent-400"
                   >
                     {site.phoneAlt}

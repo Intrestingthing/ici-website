@@ -16,6 +16,7 @@ import CourseCard from "@/components/CourseCard";
 import { categories } from "@/data/courses";
 import { site, getInstitute } from "@/data/site";
 import { useLang } from "@/i18n/LanguageProvider";
+import { track } from "@/lib/analytics";
 
 export default function CourseDetailContent({ course, related }) {
   const { t, pick } = useLang();
@@ -131,7 +132,11 @@ export default function CourseDetailContent({ course, related }) {
                 {course.counsellingOnly ? t("cta.getCounselling") : t("cta.applyEnquire")}{" "}
                 <ArrowRight size={16} />
               </Link>
-              <a href={`tel:${site.phone.replace(/\s/g, "")}`} className="btn-outline mt-3 w-full">
+              <a
+                href={`tel:${site.phone.replace(/\s/g, "")}`}
+                onClick={() => track("call_click", { source: "course_detail", course: course.slug })}
+                className="btn-outline mt-3 w-full"
+              >
                 {t("cta.call")} {site.phone}
               </a>
             </div>

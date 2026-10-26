@@ -8,6 +8,7 @@ import { site } from "@/data/site";
 import { navLinks } from "@/data/nav";
 import { useLang } from "@/i18n/LanguageProvider";
 import LanguageToggle from "@/components/LanguageToggle";
+import { track } from "@/lib/analytics";
 
 export default function Navbar() {
   const [open, setOpen] = useState(false);
@@ -34,6 +35,7 @@ export default function Navbar() {
           {/* Mobile: a single compact call link only */}
           <a
             href={`tel:${site.phone.replace(/\s/g, "")}`}
+            onClick={() => track("call_click", { source: "topbar_mobile" })}
             className="flex items-center gap-1.5 font-medium text-brand-100 hover:text-accent-400 sm:hidden"
           >
             <Phone size={13} /> {t("cta.call")} {site.phone}
@@ -42,6 +44,7 @@ export default function Navbar() {
             <div className="hidden items-center gap-5 sm:flex">
               <a
                 href={`tel:${site.phone.replace(/\s/g, "")}`}
+                onClick={() => track("call_click", { source: "topbar" })}
                 className="flex items-center gap-1.5 hover:text-accent-400"
               >
                 <Phone size={13} /> {site.phone}
@@ -144,6 +147,7 @@ export default function Navbar() {
               </Link>
               <a
                 href={`tel:${site.phone.replace(/\s/g, "")}`}
+                onClick={() => track("call_click", { source: "mobile_menu" })}
                 className="mt-1 flex items-center justify-center gap-2 py-2 text-sm font-semibold text-brand-700"
               >
                 <Phone size={16} /> {site.phone}

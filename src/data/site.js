@@ -46,6 +46,14 @@ export const site = {
   // 3) Paste it below. Until then, the form falls back to WhatsApp.
   formspreeEndpoint: "",
 
+  // ---- Analytics (both optional — leave "" to keep them off) ----
+  // Google Analytics 4: create a property at https://analytics.google.com,
+  // copy your Measurement ID (looks like "G-XXXXXXXXXX") and paste it here.
+  gaId: "",
+  // Microsoft Clarity (free heatmaps + recordings): create a project at
+  // https://clarity.microsoft.com, copy the project ID and paste it here.
+  clarityId: "",
+
   // ---- Trust stats shown on the site (edit freely) ----
   stats: [
     { value: "27+", label: "Years of Experience", labelHi: "वर्षों का अनुभव" },

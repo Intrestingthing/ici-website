@@ -64,7 +64,15 @@ export default function AboutPage() {
                 Today ICI Group runs two institutes — <strong>Innovative Career Institute</strong>,
                 which counsels students towards the right UG &amp; PG programs through our university
                 partners, and <strong>Indian Computer Institute</strong>, which teaches job-oriented
-                computer courses directly, in classroom and distance modes.
+                ### Our Journey
+
+Established in **1998 in Jhunjhunu, Rajasthan**, ICI Group began with a clear purpose — to make quality education, career guidance, and practical skill development more accessible to students. From a modest beginning, we have grown into a trusted education and training name in the region.
+
+Today, ICI Group brings together two specialised institutes:
+**Innovative Career Institute** provides personalised guidance for UG and PG programs through our university partners, helping students explore suitable courses and universities and make informed higher-education choices. Admissions are completed directly through the respective universities.
+**Indian Computer Institute** offers practical, job-oriented computer courses designed to build real-world skills for careers in areas such as computer operations, accounting, designing, programming, and more, through classroom and distance-learning modes.
+Guided by our founders, **B. L. Choudhary and Aditi Choudhary**, ICI Group continues to focus on one goal — helping students make better education choices, develop valuable skills, and move confidently toward their careers.
+The achievements of our students remain the true measure of our success.
               </p>
               <p>
                 Under the guidance of our founders, <strong>B. L. Choudhary</strong> and{" "}

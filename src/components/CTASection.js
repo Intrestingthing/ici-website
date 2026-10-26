@@ -5,6 +5,7 @@ import Image from "next/image";
 import { MessageCircle, ArrowRight } from "lucide-react";
 import { site } from "@/data/site";
 import { useLang } from "@/i18n/LanguageProvider";
+import { track } from "@/lib/analytics";
 
 export default function CTASection({ title, subtitle }) {
   const { t } = useLang();
@@ -41,6 +42,7 @@ export default function CTASection({ title, subtitle }) {
                 href={`https://wa.me/${site.whatsapp}?text=${waText}`}
                 target="_blank"
                 rel="noopener noreferrer"
+                onClick={() => track("whatsapp_click", { source: "cta" })}
                 className="btn border border-white/30 bg-white/10 text-white hover:bg-white/20"
               >
                 <MessageCircle size={18} /> {t("cta.chatWhatsapp")}

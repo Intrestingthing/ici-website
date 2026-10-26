@@ -5,7 +5,9 @@ import AnnouncementBar from "@/components/AnnouncementBar";
 import Footer from "@/components/Footer";
 import MobileActionBar from "@/components/MobileActionBar";
 import OfferBanner from "@/components/OfferBanner";
+import ClarityScript from "@/components/ClarityScript";
 import { LanguageProvider } from "@/i18n/LanguageProvider";
+import { GoogleAnalytics } from "@next/third-parties/google";
 import { site } from "@/data/site";
 
 const inter = Inter({
@@ -104,6 +106,8 @@ export default function RootLayout({ children }) {
           <Footer />
           <MobileActionBar />
         </LanguageProvider>
+        <ClarityScript />
+        {site.gaId ? <GoogleAnalytics gaId={site.gaId} /> : null}
       </body>
     </html>
   );

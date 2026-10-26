@@ -6,6 +6,7 @@ import EnquiryForm from "@/components/EnquiryForm";
 import LocationMap from "@/components/LocationMap";
 import { site } from "@/data/site";
 import { useLang } from "@/i18n/LanguageProvider";
+import { track } from "@/lib/analytics";
 
 export default function ContactContent() {
   const { t } = useLang();
@@ -17,6 +18,7 @@ export default function ContactContent() {
       title: t("contact.callUs"),
       lines: [site.phone, site.phoneAlt].filter(Boolean),
       href: `tel:${site.phone.replace(/\s/g, "")}`,
+      onClick: () => track("call_click", { source: "contact_card" }),
     },
     {
       icon: Mail,
@@ -29,6 +31,7 @@ export default function ContactContent() {
       title: t("contact.whatsapp"),
       lines: [t("contact.chatWithUs")],
       href: `https://wa.me/${site.whatsapp}?text=${waText}`,
+      onClick: () => track("whatsapp_click", { source: "contact_card" }),
     },
     {
       icon: MapPin,
@@ -61,6 +64,7 @@ export default function ContactContent() {
               <a
                 key={card.title}
                 href={card.href}
+                onClick={card.onClick}
                 target={card.href.startsWith("http") ? "_blank" : undefined}
                 rel={card.href.startsWith("http") ? "noopener noreferrer" : undefined}
                 className="card p-6 transition hover:-translate-y-1 hover:shadow-lg"

@@ -5,6 +5,7 @@ import { Send, MessageCircle, CheckCircle2, AlertCircle, Loader2, PhoneCall } fr
 import { site } from "@/data/site";
 import { courses } from "@/data/courses";
 import { useLang } from "@/i18n/LanguageProvider";
+import { track } from "@/lib/analytics";
 
 const initialState = {
   name: "",
@@ -68,13 +69,19 @@ export default function EnquiryForm() {
           headers: { Accept: "application/json", "Content-Type": "application/json" },
           body: JSON.stringify(form),
         });
-        setStatus(res.ok ? "success" : "error");
+        if (res.ok) {
+          track("generate_lead", { method: "form", course: form.course });
+          setStatus("success");
+        } else {
+          setStatus("error");
+        }
         return;
       } catch {
         setStatus("error");
         return;
       }
     }
+    track("generate_lead", { method: "whatsapp", course: form.course });
     setStatus("success");
   };
 
@@ -92,12 +99,14 @@ export default function EnquiryForm() {
           href={buildWhatsAppLink()}
           target="_blank"
           rel="noopener noreferrer"
+          onClick={() => track("whatsapp_click", { source: "form" })}
           className="btn mt-6 w-full bg-emerald-600 text-white hover:bg-emerald-700 sm:w-auto"
         >
           <MessageCircle size={18} /> {t("form.sendWa")}
         </a>
         <a
           href={`tel:${site.phone.replace(/\s/g, "")}`}
+          onClick={() => track("call_click", { source: "form_success" })}
           className="mt-3 flex items-center gap-2 text-sm font-semibold text-brand-700"
         >
           <PhoneCall size={16} /> {t("form.orCall")} {site.phone}

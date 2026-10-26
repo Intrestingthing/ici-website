@@ -7,6 +7,7 @@ import Faq from "@/components/Faq";
 import SectionHeading from "@/components/SectionHeading";
 import { site } from "@/data/site";
 import { useLang } from "@/i18n/LanguageProvider";
+import { track } from "@/lib/analytics";
 
 const faqs = [
   {
@@ -73,11 +74,19 @@ export default function AdmissionsContent() {
 
             <div className="mt-8 space-y-3 rounded-2xl bg-brand-50 p-6">
               <p className="font-display font-semibold text-slate-900">{t("adm.talk")}</p>
-              <a href={`tel:${site.phone.replace(/\s/g, "")}`} className="flex items-center gap-3 text-brand-700">
+              <a
+                href={`tel:${site.phone.replace(/\s/g, "")}`}
+                onClick={() => track("call_click", { source: "admissions" })}
+                className="flex items-center gap-3 text-brand-700"
+              >
                 <Phone size={18} /> <span className="font-medium">{site.phone}</span>
               </a>
               {site.phoneAlt && (
-                <a href={`tel:${site.phoneAlt.replace(/\s/g, "")}`} className="flex items-center gap-3 text-brand-700">
+                <a
+                  href={`tel:${site.phoneAlt.replace(/\s/g, "")}`}
+                  onClick={() => track("call_click", { source: "admissions_alt" })}
+                  className="flex items-center gap-3 text-brand-700"
+                >
                   <Phone size={18} /> <span className="font-medium">{site.phoneAlt}</span>
                 </a>
               )}
