@@ -29,7 +29,9 @@ export default function EnquiryForm() {
   const [company, setCompany] = useState(""); // honeypot — people never see it
   const [errors, setErrors] = useState({});
   const [status, setStatus] = useState("idle"); // idle | loading | success | error
-  const [saved, setSaved] = useState(false); // reached the ICI enquiry inbox
+  // Thank-you text: "noted" when saved (or when the site isn't connected to the
+  // portal, as before); "please use WhatsApp" when the portal couldn't be reached.
+  const [thanksKey, setThanksKey] = useState("form.thanksBody");
   const [errorText, setErrorText] = useState("");
 
   const update = (e) => {
@@ -76,11 +78,18 @@ export default function EnquiryForm() {
       });
       if (res.ok) {
         track("generate_lead", { method: "form", course: form.course });
-        setSaved(true);
+        setThanksKey("form.thanksBody");
         setStatus("success");
         return;
       }
       const data = await res.json().catch(() => ({}));
+      if (data.error === "not_configured") {
+        // Not connected to the portal: the WhatsApp flow, exactly as before.
+        track("generate_lead", { method: "whatsapp", course: form.course });
+        setThanksKey("form.thanksBody");
+        setStatus("success");
+        return;
+      }
       if (res.status === 422 && data.fields?.length) {
         const fieldErrors = { name: "form.errName", phone: "form.errPhone", email: "form.errEmail", course: "form.errCourse" };
         setErrors(Object.fromEntries(data.fields.filter((f) => fieldErrors[f]).map((f) => [f, t(fieldErrors[f])])));
@@ -95,7 +104,7 @@ export default function EnquiryForm() {
     } catch {}
     // The inbox can't be reached: fall back to sending the details on WhatsApp.
     track("generate_lead", { method: "whatsapp", course: form.course });
-    setSaved(false);
+    setThanksKey("form.thanksWa");
     setStatus("success");
   };
 
@@ -108,7 +117,7 @@ export default function EnquiryForm() {
           {t("form.thanks")}
           {form.name ? `, ${form.name.split(" ")[0]}` : ""}!
         </h3>
-        <p className="mt-2 max-w-md text-slate-600">{t(saved ? "form.thanksBody" : "form.thanksWa")}</p>
+        <p className="mt-2 max-w-md text-slate-600">{t(thanksKey)}</p>
         <a
           href={buildWhatsAppLink()}
           target="_blank"
@@ -129,7 +138,7 @@ export default function EnquiryForm() {
           type="button"
           onClick={() => {
             setForm(initialState);
-            setSaved(false);
+            setThanksKey("form.thanksBody");
             setStatus("idle");
           }}
           className="mt-5 text-sm font-medium text-slate-400 underline hover:text-slate-600"
