@@ -3,7 +3,7 @@ import TranslatedPageHeader from "@/components/TranslatedPageHeader";
 import SectionHeading from "@/components/SectionHeading";
 import TestimonialCard from "@/components/TestimonialCard";
 import CTASection from "@/components/CTASection";
-import { testimonials } from "@/data/testimonials";
+import { getGallery, getTestimonials } from "@/lib/cms";
 
 export const metadata = {
   title: "Gallery",
@@ -12,8 +12,10 @@ export const metadata = {
 };
 
 /*
-  Real institute photos. To add or change photos, drop them in
-  public/images/photos/ and update the `src` + `caption` below.
+  Real institute photos. Once the ICI Portal is connected, photos are managed
+  there (Staff › Website › Gallery) and this list is only the backup.
+  To change the backup, drop photos in public/images/photos/ and update the
+  `src` + `caption` below.
 */
 const photos = [
   { src: "/images/photos/computer-lab.jpg", caption: "Our Computer Lab" },
@@ -24,35 +26,57 @@ const photos = [
   { src: "/images/photos/reception.jpg", caption: "Trainer & Staff Office" },
 ];
 
-export default function GalleryPage() {
+// Photos grouped by album, in order of first appearance.
+function byAlbum(list) {
+  const groups = new Map();
+  for (const photo of list) {
+    const album = photo.album || "";
+    groups.set(album, [...(groups.get(album) ?? []), photo]);
+  }
+  return [...groups.entries()];
+}
+
+export default async function GalleryPage() {
+  const [cmsPhotos, testimonials] = await Promise.all([getGallery(), getTestimonials()]);
+  const albums = byAlbum(cmsPhotos ?? photos);
+
   return (
     <>
       <TranslatedPageHeader titleKey="gallery.title" subtitleKey="gallery.subtitle" />
 
       {/* Photo grid */}
       <section className="section">
-        <div className="container-px">
-          <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
-            {photos.map((photo) => (
-              <figure
-                key={photo.src}
-                className="group relative overflow-hidden rounded-2xl shadow-sm"
-              >
-                <Image
-                  src={photo.src}
-                  alt={`${photo.caption} — ICI Group, Jhunjhunu`}
-                  width={600}
-                  height={450}
-                  sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
-                  className="h-60 w-full object-cover transition-transform duration-300 group-hover:scale-105"
-                />
-                <figcaption className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/60 to-transparent p-4 font-display font-semibold text-white">
-                  {photo.caption}
-                </figcaption>
-              </figure>
-            ))}
-          </div>
-          <p className="mt-6 text-center text-sm text-slate-400">
+        <div className="container-px space-y-12">
+          {albums.map(([album, list]) => (
+            <div key={album || "photos"}>
+              {albums.length > 1 && album && (
+                <h2 className="mb-6 font-display text-2xl font-bold text-slate-900">{album}</h2>
+              )}
+              <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+                {list.map((photo) => (
+                  <figure
+                    key={photo.src}
+                    className="group relative overflow-hidden rounded-2xl shadow-sm"
+                  >
+                    <Image
+                      src={photo.src}
+                      alt={`${photo.caption || "Photo"} — ICI Group, Jhunjhunu`}
+                      width={600}
+                      height={450}
+                      sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+                      className="h-60 w-full object-cover transition-transform duration-300 group-hover:scale-105"
+                    />
+                    {photo.caption && (
+                      <figcaption className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/60 to-transparent p-4 font-display font-semibold text-white">
+                        {photo.caption}
+                      </figcaption>
+                    )}
+                  </figure>
+                ))}
+              </div>
+            </div>
+          ))}
+          <p className="text-center text-sm text-slate-400">
             A glimpse of our institute, computer labs and training sessions in Jhunjhunu.
           </p>
         </div>

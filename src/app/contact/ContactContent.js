@@ -4,11 +4,12 @@ import { Phone, Mail, MapPin, Clock, MessageCircle } from "lucide-react";
 import PageHeader from "@/components/PageHeader";
 import EnquiryForm from "@/components/EnquiryForm";
 import LocationMap from "@/components/LocationMap";
-import { site } from "@/data/site";
+import { useSite } from "@/components/CmsProvider";
 import { useLang } from "@/i18n/LanguageProvider";
 import { track } from "@/lib/analytics";
 
 export default function ContactContent() {
+  const site = useSite();
   const { t } = useLang();
   const waText = encodeURIComponent(`Hello ${site.name}, I have a question.`);
 

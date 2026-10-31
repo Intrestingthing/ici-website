@@ -1,13 +1,14 @@
 import Link from "next/link";
 import { CheckCircle2, PhoneCall, MessageCircle, Home } from "lucide-react";
-import { site } from "@/data/site";
+import { getSite } from "@/lib/cms";
 
 export const metadata = {
   title: "Thank You",
   description: "Thank you for your enquiry — our counsellor will contact you shortly.",
 };
 
-export default function ThankYouPage() {
+export default async function ThankYouPage() {
+  const site = await getSite();
   const waText = encodeURIComponent(`Hello ${site.name}, I just submitted an enquiry on your website.`);
 
   return (

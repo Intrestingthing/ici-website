@@ -8,7 +8,9 @@ import OfferBanner from "@/components/OfferBanner";
 import ClarityScript from "@/components/ClarityScript";
 import { LanguageProvider } from "@/i18n/LanguageProvider";
 import { GoogleAnalytics } from "@next/third-parties/google";
+import { CmsProvider } from "@/components/CmsProvider";
 import { site } from "@/data/site";
+import { getCourses, getSite } from "@/lib/cms";
 
 const inter = Inter({
   variable: "--font-inter",
@@ -66,7 +68,8 @@ export const metadata = {
   },
 };
 
-const orgSchema = {
+// Contact details come from the portal (falling back to src/data/site.js).
+const orgSchema = (site) => ({
   "@context": "https://schema.org",
   "@type": ["EducationalOrganization", "LocalBusiness"],
   name: site.name,
@@ -85,9 +88,11 @@ const orgSchema = {
     addressCountry: "IN",
   },
   openingHours: "Mo-Sa 09:00-19:00",
-};
+});
 
-export default function RootLayout({ children }) {
+export default async function RootLayout({ children }) {
+  const [cmsSite, { courses }] = await Promise.all([getSite(), getCourses()]);
+  const courseOptions = courses.map(({ slug, title, titleHi, featured }) => ({ slug, title, titleHi, featured }));
   return (
     <html
       lang="en"
@@ -96,15 +101,17 @@ export default function RootLayout({ children }) {
       <body className="flex min-h-full flex-col bg-white pb-16 text-slate-800 lg:pb-0">
         <script
           type="application/ld+json"
-          dangerouslySetInnerHTML={{ __html: JSON.stringify(orgSchema) }}
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(orgSchema(cmsSite)) }}
         />
         <LanguageProvider>
-          <OfferBanner />
-          <Navbar />
-          <AnnouncementBar />
-          <main className="w-full flex-1 overflow-x-clip">{children}</main>
-          <Footer />
-          <MobileActionBar />
+          <CmsProvider site={cmsSite} courseOptions={courseOptions}>
+            <OfferBanner />
+            <Navbar />
+            <AnnouncementBar />
+            <main className="w-full flex-1 overflow-x-clip">{children}</main>
+            <Footer />
+            <MobileActionBar />
+          </CmsProvider>
         </LanguageProvider>
         <ClarityScript />
         {site.gaId ? <GoogleAnalytics gaId={site.gaId} /> : null}

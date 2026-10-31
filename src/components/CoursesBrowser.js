@@ -2,11 +2,11 @@
 
 import { useState } from "react";
 import CourseCard from "@/components/CourseCard";
-import { courses, categories } from "@/data/courses";
-import { site } from "@/data/site";
+import { useSite } from "@/components/CmsProvider";
 import { useLang } from "@/i18n/LanguageProvider";
 
-export default function CoursesBrowser() {
+export default function CoursesBrowser({ courses, categories }) {
+  const site = useSite();
   const { t, pick } = useLang();
   const [category, setCategory] = useState("all");
   const [institute, setInstitute] = useState("all");

@@ -1,15 +1,17 @@
 import { notFound } from "next/navigation";
 import CourseDetailContent from "./CourseDetailContent";
-import { courses, getCourseBySlug } from "@/data/courses";
-import { site } from "@/data/site";
+import { getCourses, getSite } from "@/lib/cms";
+import { courseBySlug, relatedCourses } from "@/lib/courses";
 
-export function generateStaticParams() {
+// Courses added later in the portal are rendered on their first visit.
+export async function generateStaticParams() {
+  const { courses } = await getCourses();
   return courses.map((course) => ({ slug: course.slug }));
 }
 
 export async function generateMetadata({ params }) {
   const { slug } = await params;
-  const course = getCourseBySlug(slug);
+  const course = courseBySlug((await getCourses()).courses, slug);
   if (!course) return { title: "Course Not Found" };
   return {
     title: course.title,
@@ -19,12 +21,11 @@ export async function generateMetadata({ params }) {
 
 export default async function CourseDetailPage({ params }) {
   const { slug } = await params;
-  const course = getCourseBySlug(slug);
+  const [{ courses, categories }, site] = await Promise.all([getCourses(), getSite()]);
+  const course = courseBySlug(courses, slug);
   if (!course) notFound();
 
-  const related = courses
-    .filter((c) => c.category === course.category && c.slug !== course.slug)
-    .slice(0, 3);
+  const related = relatedCourses(courses, course);
 
   const courseSchema = {
     "@context": "https://schema.org",
@@ -44,7 +45,7 @@ export default async function CourseDetailPage({ params }) {
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(courseSchema) }}
       />
-      <CourseDetailContent course={course} related={related} />
+      <CourseDetailContent course={course} related={related} categories={categories} />
     </>
   );
 }

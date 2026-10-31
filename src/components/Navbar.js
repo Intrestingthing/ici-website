@@ -3,14 +3,15 @@
 import { useState, useEffect } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { Menu, X, Phone, Mail, ArrowRight } from "lucide-react";
-import { site } from "@/data/site";
+import { Menu, X, Phone, Mail, ArrowRight, LogIn } from "lucide-react";
+import { PORTAL_URL, useSite } from "@/components/CmsProvider";
 import { navLinks } from "@/data/nav";
 import { useLang } from "@/i18n/LanguageProvider";
 import LanguageToggle from "@/components/LanguageToggle";
 import { track } from "@/lib/analytics";
 
 export default function Navbar() {
+  const site = useSite();
   const [open, setOpen] = useState(false);
   const pathname = usePathname();
   const { t } = useLang();
@@ -95,6 +96,15 @@ export default function Navbar() {
           </div>
 
           <div className="hidden items-center gap-3 xl:flex">
+            {PORTAL_URL && (
+              <a
+                href={`${PORTAL_URL}/login`}
+                onClick={() => track("portal_login_click", { source: "navbar" })}
+                className="btn-outline"
+              >
+                <LogIn size={16} /> {t("nav.login")}
+              </a>
+            )}
             <Link href="/admissions" className="btn-primary">
               {t("cta.enquireNow")} <ArrowRight size={16} />
             </Link>
@@ -145,6 +155,15 @@ export default function Navbar() {
               >
                 {t("cta.enquireNow")} <ArrowRight size={16} />
               </Link>
+              {PORTAL_URL && (
+                <a
+                  href={`${PORTAL_URL}/login`}
+                  onClick={() => track("portal_login_click", { source: "mobile_menu" })}
+                  className="btn-outline mt-1 w-full"
+                >
+                  <LogIn size={16} /> {t("nav.login")}
+                </a>
+              )}
               <a
                 href={`tel:${site.phone.replace(/\s/g, "")}`}
                 onClick={() => track("call_click", { source: "mobile_menu" })}

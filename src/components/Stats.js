@@ -1,9 +1,10 @@
 "use client";
 
-import { site } from "@/data/site";
+import { useSite } from "@/components/CmsProvider";
 import { useLang } from "@/i18n/LanguageProvider";
 
 export default function Stats({ dark = false }) {
+  const site = useSite();
   const { pick } = useLang();
 
   return (

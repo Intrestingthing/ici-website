@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { GraduationCap, Laptop, ArrowRight } from "lucide-react";
-import { site } from "@/data/site";
+import { useSite } from "@/components/CmsProvider";
 import { useLang } from "@/i18n/LanguageProvider";
 
 // Maps the icon name stored in site.js → an actual icon component.
@@ -17,6 +17,7 @@ const cardStyles = [
 ];
 
 export default function InstituteCards() {
+  const site = useSite();
   const { t, pick } = useLang();
 
   return (

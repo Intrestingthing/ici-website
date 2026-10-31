@@ -20,6 +20,8 @@ export const dict = {
     "nav.gallery": "Gallery",
     "nav.contact": "Contact",
     "nav.admissions": "Admissions",
+    "nav.events": "Events",
+    "nav.login": "Login",
 
     "cta.enquireNow": "Enquire Now",
     "cta.exploreCourses": "Explore Courses",
@@ -102,6 +104,15 @@ export const dict = {
     "events.title": "Events & Festivals",
     "events.subtitle":
       "Learning at ICI is more than classes. We celebrate festivals, run competitions and reach out to the community through events all year round.",
+    "events.pageTitle": "Events",
+    "events.pageSubtitle": "Upcoming events at ICI, and photos from the ones we have held.",
+    "events.upcoming": "Upcoming events",
+    "events.past": "Past events",
+    "events.none": "No events listed yet — here is what we do through the year.",
+    "events.all": "All events",
+    "events.photos": "photos",
+    "events.photosTitle": "Photos",
+    "events.upcomingBadge": "Upcoming",
 
     "cta.ready.title": "Ready to start your computer career?",
     "cta.ready.subtitle":
@@ -111,6 +122,8 @@ export const dict = {
     "footer.popularCourses": "Popular Courses",
     "footer.getInTouch": "Get in Touch",
     "footer.rights": "All rights reserved.",
+    "footer.portal": "Student & staff login",
+    "footer.verify": "Verify a certificate",
 
     // Courses page + browser + cards + detail
     "courses.pageTitle": "Our Courses",
@@ -173,6 +186,9 @@ export const dict = {
     "form.sendWa": "Send my details on WhatsApp",
     "form.orCall": "or call",
     "form.another": "Submit another enquiry",
+    "form.thanksWa":
+      "We couldn't save your enquiry online just now. Please tap below to send your details on WhatsApp, or call us, so our counsellor gets them.",
+    "form.tooMany": "Too many enquiries from this connection. Please try again in a few minutes, or call us.",
 
     // FAQ
     "faq.eyebrow": "FAQ",
@@ -241,6 +257,8 @@ export const dict = {
     "nav.gallery": "गैलरी",
     "nav.contact": "संपर्क",
     "nav.admissions": "प्रवेश",
+    "nav.events": "आयोजन",
+    "nav.login": "लॉगिन",
 
     "cta.enquireNow": "अभी पूछताछ करें",
     "cta.exploreCourses": "कोर्स देखें",
@@ -323,6 +341,15 @@ export const dict = {
     "events.title": "आयोजन एवं उत्सव",
     "events.subtitle":
       "ICI में सीखना कक्षाओं से कहीं अधिक है। हम साल भर उत्सव मनाते हैं, प्रतियोगिताएँ कराते हैं और आयोजनों के ज़रिए समुदाय तक पहुँचते हैं।",
+    "events.pageTitle": "आयोजन",
+    "events.pageSubtitle": "ICI के आगामी आयोजन, और पिछले आयोजनों की तस्वीरें।",
+    "events.upcoming": "आगामी आयोजन",
+    "events.past": "पिछले आयोजन",
+    "events.none": "अभी कोई आयोजन सूचीबद्ध नहीं है — देखें हम साल भर क्या करते हैं।",
+    "events.all": "सभी आयोजन",
+    "events.photos": "तस्वीरें",
+    "events.photosTitle": "तस्वीरें",
+    "events.upcomingBadge": "आगामी",
 
     "cta.ready.title": "अपना कंप्यूटर करियर शुरू करने के लिए तैयार हैं?",
     "cta.ready.subtitle":
@@ -332,6 +359,8 @@ export const dict = {
     "footer.popularCourses": "लोकप्रिय कोर्स",
     "footer.getInTouch": "संपर्क करें",
     "footer.rights": "सर्वाधिकार सुरक्षित।",
+    "footer.portal": "विद्यार्थी व स्टाफ लॉगिन",
+    "footer.verify": "प्रमाणपत्र सत्यापित करें",
 
     // Courses page + browser + cards + detail
     "courses.pageTitle": "हमारे कोर्स",
@@ -394,6 +423,9 @@ export const dict = {
     "form.sendWa": "मेरी जानकारी व्हाट्सएप पर भेजें",
     "form.orCall": "या कॉल करें",
     "form.another": "एक और पूछताछ भेजें",
+    "form.thanksWa":
+      "अभी आपकी पूछताछ ऑनलाइन सहेजी नहीं जा सकी। कृपया नीचे टैप करके अपनी जानकारी व्हाट्सएप पर भेजें, या हमें कॉल करें, ताकि हमारे काउंसलर तक पहुँचे।",
+    "form.tooMany": "इस कनेक्शन से बहुत सारी पूछताछ आ चुकी हैं। कृपया कुछ मिनट बाद फिर कोशिश करें, या हमें कॉल करें।",
 
     // FAQ
     "faq.eyebrow": "सामान्य प्रश्न",

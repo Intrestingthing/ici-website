@@ -13,14 +13,14 @@ import {
 } from "lucide-react";
 import PageHeader from "@/components/PageHeader";
 import CourseCard from "@/components/CourseCard";
-import { categories } from "@/data/courses";
-import { site, getInstitute } from "@/data/site";
+import { useSite } from "@/components/CmsProvider";
 import { useLang } from "@/i18n/LanguageProvider";
 import { track } from "@/lib/analytics";
 
-export default function CourseDetailContent({ course, related }) {
+export default function CourseDetailContent({ course, related, categories }) {
+  const site = useSite();
   const { t, pick } = useLang();
-  const institute = getInstitute(course.institute);
+  const institute = site.institutes.find((i) => i.id === course.institute);
   const cat = categories.find((c) => c.id === course.category);
 
   const mode = course.counsellingOnly

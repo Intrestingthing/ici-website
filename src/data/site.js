@@ -3,6 +3,11 @@
   EDIT THIS FILE to update your institute's contact details everywhere.
   These values are used across the whole website (header, footer, contact
   page, enquiry form, WhatsApp button, etc.).
+
+  Once the ICI Portal is connected (NEXT_PUBLIC_PORTAL_URL), contact details,
+  announcements, the offer banner, stats and library details are edited in
+  the portal (Staff › Website) and override these. The values here stay as
+  the backup the site shows if the portal can't be reached.
   ========================================================================
 */
 
@@ -39,12 +44,6 @@ export const site = {
     youtube: "",
     linkedin: "",
   },
-
-  // ---- Enquiry form delivery ----
-  // 1) Create a free account at https://formspree.io
-  // 2) Make a new form, copy its endpoint (looks like https://formspree.io/f/abcdwxyz)
-  // 3) Paste it below. Until then, the form falls back to WhatsApp.
-  formspreeEndpoint: "",
 
   // ---- Analytics (both optional — leave "" to keep them off) ----
   // Google Analytics 4: create a property at https://analytics.google.com,

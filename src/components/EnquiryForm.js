@@ -2,8 +2,7 @@
 
 import { useState } from "react";
 import { Send, MessageCircle, CheckCircle2, AlertCircle, Loader2, PhoneCall } from "lucide-react";
-import { site } from "@/data/site";
-import { courses } from "@/data/courses";
+import { useCourseOptions, useSite } from "@/components/CmsProvider";
 import { useLang } from "@/i18n/LanguageProvider";
 import { track } from "@/lib/analytics";
 
@@ -23,10 +22,15 @@ const MODES = [
 ];
 
 export default function EnquiryForm() {
-  const { t } = useLang();
+  const site = useSite();
+  const courses = useCourseOptions();
+  const { lang, t } = useLang();
   const [form, setForm] = useState(initialState);
+  const [company, setCompany] = useState(""); // honeypot — people never see it
   const [errors, setErrors] = useState({});
   const [status, setStatus] = useState("idle"); // idle | loading | success | error
+  const [saved, setSaved] = useState(false); // reached the ICI enquiry inbox
+  const [errorText, setErrorText] = useState("");
 
   const update = (e) => {
     setForm({ ...form, [e.target.name]: e.target.value });
@@ -61,27 +65,37 @@ export default function EnquiryForm() {
     e.preventDefault();
     if (!validate()) return;
 
-    if (site.formspreeEndpoint) {
-      setStatus("loading");
-      try {
-        const res = await fetch(site.formspreeEndpoint, {
-          method: "POST",
-          headers: { Accept: "application/json", "Content-Type": "application/json" },
-          body: JSON.stringify(form),
-        });
-        if (res.ok) {
-          track("generate_lead", { method: "form", course: form.course });
-          setStatus("success");
-        } else {
-          setStatus("error");
-        }
+    // Save it in the ICI enquiry inbox (via /api/enquiry → portal).
+    setStatus("loading");
+    setErrorText("");
+    try {
+      const res = await fetch("/api/enquiry", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ ...form, company, lang, sourcePage: window.location.pathname }),
+      });
+      if (res.ok) {
+        track("generate_lead", { method: "form", course: form.course });
+        setSaved(true);
+        setStatus("success");
         return;
-      } catch {
+      }
+      const data = await res.json().catch(() => ({}));
+      if (res.status === 422 && data.fields?.length) {
+        const fieldErrors = { name: "form.errName", phone: "form.errPhone", email: "form.errEmail", course: "form.errCourse" };
+        setErrors(Object.fromEntries(data.fields.filter((f) => fieldErrors[f]).map((f) => [f, t(fieldErrors[f])])));
+        setStatus("idle");
+        return;
+      }
+      if (res.status === 429) {
+        setErrorText(t("form.tooMany"));
         setStatus("error");
         return;
       }
-    }
+    } catch {}
+    // The inbox can't be reached: fall back to sending the details on WhatsApp.
     track("generate_lead", { method: "whatsapp", course: form.course });
+    setSaved(false);
     setStatus("success");
   };
 
@@ -94,7 +108,7 @@ export default function EnquiryForm() {
           {t("form.thanks")}
           {form.name ? `, ${form.name.split(" ")[0]}` : ""}!
         </h3>
-        <p className="mt-2 max-w-md text-slate-600">{t("form.thanksBody")}</p>
+        <p className="mt-2 max-w-md text-slate-600">{t(saved ? "form.thanksBody" : "form.thanksWa")}</p>
         <a
           href={buildWhatsAppLink()}
           target="_blank"
@@ -115,6 +129,7 @@ export default function EnquiryForm() {
           type="button"
           onClick={() => {
             setForm(initialState);
+            setSaved(false);
             setStatus("idle");
           }}
           className="mt-5 text-sm font-medium text-slate-400 underline hover:text-slate-600"
@@ -132,6 +147,18 @@ export default function EnquiryForm() {
 
   return (
     <form onSubmit={handleSubmit} noValidate className="card p-6 sm:p-8">
+      {/* Spam trap: hidden from people, bots fill it in. */}
+      <div aria-hidden="true" className="absolute -left-[9999px] h-px w-px overflow-hidden">
+        <label htmlFor="company">Company</label>
+        <input
+          id="company"
+          name="company"
+          tabIndex={-1}
+          autoComplete="off"
+          value={company}
+          onChange={(e) => setCompany(e.target.value)}
+        />
+      </div>
       <div className="grid gap-5 sm:grid-cols-2">
         <div>
           <label htmlFor="name" className={labelClass}>
@@ -245,7 +272,7 @@ export default function EnquiryForm() {
 
       {status === "error" && (
         <p className="mt-4 flex items-center gap-2 rounded-xl bg-red-50 px-4 py-3 text-sm text-red-600">
-          <AlertCircle size={16} /> {t("form.errGeneric")}
+          <AlertCircle size={16} /> {errorText || t("form.errGeneric")}
         </p>
       )}
 

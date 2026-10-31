@@ -14,6 +14,7 @@ export const navLinks = [
 export const footerExtraLinks = [
   { href: "/distance-learning", label: "Distance Learning", key: "nav.online" },
   { href: "/admissions", label: "Admissions", key: "nav.admissions" },
+  { href: "/events", label: "Events", key: "nav.events" },
 ];
 
 export default navLinks;

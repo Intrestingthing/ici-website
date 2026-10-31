@@ -3,7 +3,7 @@ import { Clock, Sun, CalendarDays, Snowflake, Droplets, Armchair, Leaf, Users, B
 import TranslatedPageHeader from "@/components/TranslatedPageHeader";
 import SectionHeading from "@/components/SectionHeading";
 import CTASection from "@/components/CTASection";
-import { site } from "@/data/site";
+import { getSite } from "@/lib/cms";
 
 export const metadata = {
   title: "Library",
@@ -20,7 +20,8 @@ const facilityColors = [
   "bg-emerald-100 text-emerald-600",
 ];
 
-export default function LibraryPage() {
+export default async function LibraryPage() {
+  const site = await getSite();
   const { library } = site;
 
   return (

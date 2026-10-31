@@ -14,7 +14,8 @@ import TranslatedPageHeader from "@/components/TranslatedPageHeader";
 import SectionHeading from "@/components/SectionHeading";
 import CourseCard from "@/components/CourseCard";
 import CTASection from "@/components/CTASection";
-import { getOnlineCourses } from "@/data/courses";
+import { getCourses } from "@/lib/cms";
+import { onlineCourses as onlineOnly } from "@/lib/courses";
 
 export const metadata = {
   title: "Online Learning",
@@ -58,8 +59,8 @@ const benefits = [
   { icon: BadgeCheck, title: "Same Certificate", text: "Earn the same recognised certificate as classroom students." },
 ];
 
-export default function OnlineLearningPage() {
-  const onlineCourses = getOnlineCourses();
+export default async function OnlineLearningPage() {
+  const onlineCourses = onlineOnly((await getCourses()).courses);
 
   return (
     <>

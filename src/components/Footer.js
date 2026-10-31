@@ -2,9 +2,8 @@
 
 import Link from "next/link";
 import { Phone, Mail, MapPin } from "lucide-react";
-import { site } from "@/data/site";
+import { PORTAL_URL, useCourseOptions, useSite } from "@/components/CmsProvider";
 import { navLinks, footerExtraLinks } from "@/data/nav";
-import { getFeaturedCourses } from "@/data/courses";
 import FooterSection from "@/components/FooterSection";
 import { useLang } from "@/i18n/LanguageProvider";
 import { track } from "@/lib/analytics";
@@ -35,9 +34,12 @@ const socialIcons = {
 };
 
 export default function Footer() {
+  const site = useSite();
   const { t } = useLang();
   const year = 2026;
-  const topCourses = getFeaturedCourses().slice(0, 5);
+  const topCourses = useCourseOptions()
+    .filter((course) => course.featured)
+    .slice(0, 5);
 
   return (
     <footer className="mt-auto bg-brand-950 text-slate-300">
@@ -82,6 +84,20 @@ export default function Footer() {
                 </Link>
               </li>
             ))}
+            {PORTAL_URL && (
+              <>
+                <li>
+                  <a href={`${PORTAL_URL}/login`} className="inline-block py-1 transition-colors hover:text-accent-400">
+                    {t("footer.portal")}
+                  </a>
+                </li>
+                <li>
+                  <a href={`${PORTAL_URL}/verify`} className="inline-block py-1 transition-colors hover:text-accent-400">
+                    {t("footer.verify")}
+                  </a>
+                </li>
+              </>
+            )}
           </ul>
         </FooterSection>
 

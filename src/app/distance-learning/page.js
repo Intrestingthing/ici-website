@@ -16,7 +16,8 @@ import TranslatedPageHeader from "@/components/TranslatedPageHeader";
 import SectionHeading from "@/components/SectionHeading";
 import CourseCard from "@/components/CourseCard";
 import CTASection from "@/components/CTASection";
-import { getDistanceCourses } from "@/data/courses";
+import { getCourses } from "@/lib/cms";
+import { distanceCourses as distanceOnly } from "@/lib/courses";
 
 export const metadata = {
   title: "Distance Learning",
@@ -40,9 +41,10 @@ const steps = [
   { icon: GraduationCap, title: "Get Certified", text: "Clear your assessment and receive your certificate." },
 ];
 
-export default function DistanceLearningPage() {
+export default async function DistanceLearningPage() {
+  const { courses } = await getCourses();
   // Only computer courses taught directly (not the UG/PG counselling programs).
-  const distanceCourses = getDistanceCourses().filter(
+  const distanceCourses = distanceOnly(courses).filter(
     (course) => course.institute === "indian-computer-institute"
   );
 

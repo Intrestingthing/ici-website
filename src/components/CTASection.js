@@ -3,11 +3,12 @@
 import Link from "next/link";
 import Image from "next/image";
 import { MessageCircle, ArrowRight } from "lucide-react";
-import { site } from "@/data/site";
+import { useSite } from "@/components/CmsProvider";
 import { useLang } from "@/i18n/LanguageProvider";
 import { track } from "@/lib/analytics";
 
 export default function CTASection({ title, subtitle }) {
+  const site = useSite();
   const { t } = useLang();
   const heading = title ?? t("cta.ready.title");
   const sub = subtitle ?? t("cta.ready.subtitle");

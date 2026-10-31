@@ -1,10 +1,11 @@
 "use client";
 
 import { ShieldCheck, Award, Landmark } from "lucide-react";
-import { site } from "@/data/site";
+import { useSite } from "@/components/CmsProvider";
 import { useLang } from "@/i18n/LanguageProvider";
 
 export default function ApprovalsStrip() {
+  const site = useSite();
   const { pick } = useLang();
   const items = [
     { icon: ShieldCheck, text: pick(site.approvals.geduconnect, "title") },

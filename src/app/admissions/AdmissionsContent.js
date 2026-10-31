@@ -5,7 +5,7 @@ import PageHeader from "@/components/PageHeader";
 import EnquiryForm from "@/components/EnquiryForm";
 import Faq from "@/components/Faq";
 import SectionHeading from "@/components/SectionHeading";
-import { site } from "@/data/site";
+import { useSite } from "@/components/CmsProvider";
 import { useLang } from "@/i18n/LanguageProvider";
 import { track } from "@/lib/analytics";
 
@@ -49,6 +49,7 @@ const faqs = [
 ];
 
 export default function AdmissionsContent() {
+  const site = useSite();
   const { t } = useLang();
   const points = ["adm.p1", "adm.p2", "adm.p3", "adm.p4"];
 

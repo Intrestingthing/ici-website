@@ -5,7 +5,7 @@ import SectionHeading from "@/components/SectionHeading";
 import Stats from "@/components/Stats";
 import CTASection from "@/components/CTASection";
 import InstituteCards from "@/components/InstituteCards";
-import { site } from "@/data/site";
+import { getSite } from "@/lib/cms";
 
 export const metadata = {
   title: "About Us",
@@ -40,7 +40,8 @@ const values = [
   },
 ];
 
-export default function AboutPage() {
+export default async function AboutPage() {
+  const site = await getSite();
   return (
     <>
       <TranslatedPageHeader titleKey="about.title" subtitleKey="about.subtitle" />

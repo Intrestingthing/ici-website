@@ -2,11 +2,12 @@
 
 import { useState } from "react";
 import { MapPin, ExternalLink } from "lucide-react";
-import { site } from "@/data/site";
+import { useSite } from "@/components/CmsProvider";
 
 // Lightweight by default (no heavy Maps iframe until asked). "Open in Google
 // Maps" is one tap → the visitor's Maps app with directions.
 export default function LocationMap() {
+  const site = useSite();
   const [loaded, setLoaded] = useState(false);
   const query = encodeURIComponent(
     `${site.name}, ${site.address.line1}, ${site.address.line2}`

@@ -2,12 +2,13 @@
 
 import Link from "next/link";
 import { Phone, MessageCircle, Send } from "lucide-react";
-import { site } from "@/data/site";
+import { useSite } from "@/components/CmsProvider";
 import { useLang } from "@/i18n/LanguageProvider";
 import { track } from "@/lib/analytics";
 
 // Fixed Call / WhatsApp / Enquire bar shown on mobile & tablet only.
 export default function MobileActionBar() {
+  const site = useSite();
   const { t } = useLang();
   const waText = encodeURIComponent(
     `Hello ${site.name}, I would like to enquire about your courses.`

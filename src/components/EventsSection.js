@@ -1,8 +1,10 @@
 "use client";
 
-import { Route, PartyPopper, Trophy, Presentation, CalendarHeart } from "lucide-react";
+import Link from "next/link";
+import { Route, PartyPopper, Trophy, Presentation, CalendarHeart, ArrowRight } from "lucide-react";
 import SectionHeading from "@/components/SectionHeading";
-import { site } from "@/data/site";
+import EventCard from "@/components/EventCard";
+import { useSite } from "@/components/CmsProvider";
 import { useLang } from "@/i18n/LanguageProvider";
 
 const iconMap = { Route, PartyPopper, Trophy, Presentation };
@@ -13,17 +15,41 @@ const tileColors = [
   "bg-emerald-100 text-emerald-600",
 ];
 
-export default function EventsSection({ bg = false }) {
+// Events added in the portal (marked "show on home") when there are any;
+// otherwise the general tiles about the kinds of events ICI holds.
+export default function EventsSection({ bg = false, events = [] }) {
+  const site = useSite();
   const { t, pick } = useLang();
+  const heading = (
+    <SectionHeading center eyebrow={t("events.eyebrow")} title={t("events.title")} subtitle={t("events.subtitle")} />
+  );
+
+  if (events.length > 0) {
+    return (
+      <section className={`section ${bg ? "bg-slate-50" : ""}`}>
+        <div className="container-px">
+          {heading}
+          <div className="mt-10 flex snap-x snap-mandatory gap-5 overflow-x-auto pb-2 [-ms-overflow-style:none] [scrollbar-width:none] sm:mt-12 sm:grid sm:snap-none sm:grid-cols-2 sm:gap-6 sm:overflow-visible lg:grid-cols-4 [&::-webkit-scrollbar]:hidden">
+            {events.map((event) => (
+              <div key={event.slug} className="w-[78%] shrink-0 snap-start sm:w-auto sm:shrink">
+                <EventCard event={event} />
+              </div>
+            ))}
+          </div>
+          <div className="mt-8 text-center">
+            <Link href="/events" className="btn-outline">
+              {t("events.all")} <ArrowRight size={16} />
+            </Link>
+          </div>
+        </div>
+      </section>
+    );
+  }
+
   return (
     <section className={`section ${bg ? "bg-slate-50" : ""}`}>
       <div className="container-px">
-        <SectionHeading
-          center
-          eyebrow={t("events.eyebrow")}
-          title={t("events.title")}
-          subtitle={t("events.subtitle")}
-        />
+        {heading}
         <div className="mt-10 flex snap-x snap-mandatory gap-5 overflow-x-auto pb-2 [-ms-overflow-style:none] [scrollbar-width:none] sm:mt-12 sm:grid sm:snap-none sm:grid-cols-2 sm:gap-6 sm:overflow-visible lg:grid-cols-4 [&::-webkit-scrollbar]:hidden">
           {site.events.map((event, i) => {
             const Icon = iconMap[event.icon] ?? CalendarHeart;

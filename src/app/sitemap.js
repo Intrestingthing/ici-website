@@ -1,8 +1,8 @@
-import { courses } from "@/data/courses";
+import { getCourses, getEvents } from "@/lib/cms";
 
 const siteUrl = "https://iciedu.org";
 
-export default function sitemap() {
+export default async function sitemap() {
   const staticPaths = [
     "",
     "/courses",
@@ -11,11 +11,13 @@ export default function sitemap() {
     "/online-learning",
     "/about",
     "/gallery",
+    "/events",
     "/contact",
     "/admissions",
   ];
 
   const lastModified = new Date();
+  const [{ courses }, events] = await Promise.all([getCourses(), getEvents()]);
 
   const staticRoutes = staticPaths.map((path) => ({
     url: `${siteUrl}${path}`,
@@ -31,5 +33,12 @@ export default function sitemap() {
     priority: 0.7,
   }));
 
-  return [...staticRoutes, ...courseRoutes];
+  const eventRoutes = events.map((event) => ({
+    url: `${siteUrl}/events/${event.slug}`,
+    lastModified,
+    changeFrequency: "monthly",
+    priority: 0.5,
+  }));
+
+  return [...staticRoutes, ...courseRoutes, ...eventRoutes];
 }
